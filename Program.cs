@@ -11,6 +11,7 @@ a. For the admin menu, a password needs to be entered. It must match a const pss
 
 //hello this is our final project
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -36,18 +37,42 @@ do
                 string inputPsswd = Console.ReadLine();
                 if (inputPsswd == psswd)
                 {
-                    int menuChoice = 0;
+                
                     Console.WriteLine("You have been logged in to the admin menu");
                     // Admin menu functionality goes here
                     Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
                         "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
+
+                    int menuChoice = Convert.ToInt32(Console.ReadLine());
+
                     switch (menuChoice)
                     {
                         case 1:
                             // View a profile
-                            break;
+                            Console.WriteLine("Enter player ID to view profile:");
+                            string tempID = Console.ReadLine();
+                            GetPlayerID (tempID);
+                            if (GetPlayerID(tempID).Equals("-1"))
+                            {
+                                Console.WriteLine("Player ID not found.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Player ID found.");
+                                // Display player profile details here
+                                int id = Convert.ToInt32(GetPlayerID(tempID));
+
+                                PrintPlayerProfile(id);
+
+
+                            }
+                        break;
                         case 2:
                             // Display all profiles
+                            for (int j = 0; j < listOfPlayers.Length; j++)
+                            {
+                                PrintPlayerProfile(j);
+                            }
                             break;
                         case 3:
                             // Run stats
@@ -96,9 +121,28 @@ do
 
 } while(exit == false);
 
+string GetPlayerID (string Id)
+{
+    for (int i = 0; i < listOfPlayers.Length; i++)
+    {
+        if (listOfPlayers[i].Id == Id)
+        {
+            return $"{i}";
+        }
+    }
+    return "-1";
+}
 
-
-
+void PrintPlayerProfile (int index)
+{
+    Console.WriteLine($"Player ID:{listOfPlayers[index].Id}\nName:{listOfPlayers[index].Name}\n" +
+                                    $"Number of Hangman Games Played: {listOfPlayers[index].NumOfHangmanGamesPlayed}\n" +
+                                    $"Number of Tic Tac Toe Games Played: {listOfPlayers[index].NumOfTicTacToeGamesPlayed}\n" +
+                                    $"Hangman Score: {listOfPlayers[index].HangmanScore}\n" +
+                                    $"Tic Tac Toe Score: {listOfPlayers[index].TicTacToeScore}\n" +
+                                    $"Average Score: {listOfPlayers[index].AvgScore}\n" +
+                                    $"Is Suspended: {listOfPlayers[index].IsSuspended}\n");
+}
 
 
 
