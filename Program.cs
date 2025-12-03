@@ -134,8 +134,71 @@ void PrintPlayerProfile (int index)
                                     $"Is Suspended: {listOfPlayers[index].IsSuspended}\n");
 }
 
+void AdminMenu()
+{
+    for (int i = 0; i < 3;)
+    {
+        Console.WriteLine("Please enter the admin password:");
+        string inputPsswd = Console.ReadLine();
+        if (inputPsswd == psswd)
+        {
+
+            Console.WriteLine("You have been logged in to the admin menu");
+            // Admin menu functionality goes here
+            Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
+                "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
+
+            int menuChoice = Convert.ToInt32(Console.ReadLine());
+
+            switch (menuChoice)
+            {
+                case 1:
+                    // View a profile
+                    Console.WriteLine("Enter player ID to view profile:");
+                    string tempID = Console.ReadLine();
+                    GetPlayerID(tempID);
+                    if (GetPlayerID(tempID).Equals("-1"))
+                    {
+                        Console.WriteLine("Player ID not found.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Player ID found.");
+                        // Display player profile details here
+                        int id = Convert.ToInt32(GetPlayerID(tempID));
+
+                        PrintPlayerProfile(id);
 
 
+                    }
+
+                    break;
+                case 2:
+                    // Display all profiles
+                    for (int j = 0; j < listOfPlayers.Length; j++)
+                    {
+                        PrintPlayerProfile(j);
+                    }
+                    break;
+                case 3:
+                    // Run stats
+                    break;
+                case 4:
+                    // Un/Suspend player
+                    break;
+                case 5:
+                    // Return to Main Menu
+                    break;
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Access has been denied!");
+            i++;
+        }
+    }
+}
 
 struct Player 
 {
