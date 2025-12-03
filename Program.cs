@@ -1,19 +1,6 @@
-﻿/*
- * A struct Player with the following fields: Id, Name, NumOfHangmanGamesPlayed,
-NumOfTicTacToeGamesPlayed, TotalNumOfGamesPlayed, HangmanScore, TictactoeScore, AvgScore,
-IsSuspended.
-2. An array listOfPlayers that will hold up to 50 player profiles. // syntax : Player[] = new Player[50];
-3. A numOfPlayers variable that keeps track of the total profiles saved in the array.
-4. A forever loop that will allow the program to keep running, optional exit and lose all saved profiles
-5. A welcome message to the user and a prompt: admin menu, player menu, or Exit? Validate.
-a. For the admin menu, a password needs to be entered. It must match a const psswd 5555
-*/
+﻿
 
 //hello this is our final project
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 Player[] listOfPlayers = new Player[50];
 int numOfPlayers = 0;
@@ -30,6 +17,7 @@ do
     switch (choice) 
     {
         case 1:
+            // Admin menu
             Console.WriteLine ("Welcome to the admin menu");
             for (int i = 0; i < 3;)
             {
@@ -94,8 +82,10 @@ do
             }
             break;
         case 2:
+            // Player menu
             break;
         case 3:
+            // Exit
             do
             {
                 char exitout;
