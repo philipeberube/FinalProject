@@ -185,6 +185,22 @@ void TicTacToeHighScore(Player[] listOfPlayers)
         }
     }
 }
+
+void HighestAverageScore(Player[] listOfPlayers)
+{
+    float highScore = listOfPlayers[0].AvgScore;
+    int index = 0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].AvgScore > highScore)
+        {
+            highScore = listOfPlayers[i].AvgScore;
+            index = i;
+        }
+    }
+    Console.WriteLine($"The highest Average score is: {highScore}");
+    Console.WriteLine($"It is found at index {index}");
+}
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
