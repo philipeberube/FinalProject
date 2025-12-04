@@ -11,7 +11,17 @@ int numOfPlayers = 0;
 const string psswd = "2025";
 bool exit = false;
 int choice = 0;
-
+Player player1 = new Player
+{
+    Id = "P001",
+    Name = "Alice",
+    NumOfHangmanGamesPlayed = 5,
+    NumOfTicTacToeGamesPlayed = 3,
+    HangmanScore = 80,
+    TicTacToeScore = 50,
+    AvgScore = 65.0f,
+    IsSuspended = false
+};
 do
 {
     Console.WriteLine("Welcome to B&B Games would you like to enter\n1- admin menu\n2- the player menu\n3- exit");
@@ -20,11 +30,13 @@ do
     switch (choice) 
     {
         case 1:
+            // Admin menu
+            Console.WriteLine ("Welcome to the admin menu");
             AdminMenu();
             break;
         case 2:
-            PlayerMenu();
-            
+            // Player menu
+            Console.WriteLine("Welcome to the player menu");
 
             break;
         case 3:
@@ -79,66 +91,107 @@ void PrintPlayerProfile (int index)
 
 void AdminMenu()
 {
+    bool accessGranted = false;
     for (int i = 0; i < 3;)
     {
         Console.WriteLine("Please enter the admin password:");
         string inputPsswd = Console.ReadLine();
         if (inputPsswd == psswd)
         {
-
-            Console.WriteLine("You have been logged in to the admin menu");
-            // Admin menu functionality goes here
-            Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
-                "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
-
-            int menuChoice = Convert.ToInt32(Console.ReadLine());
-
-            switch (menuChoice)
-            {
-                case 1:
-                    // View a profile
-                    Console.WriteLine("Enter player ID to view profile:");
-                    string tempID = Console.ReadLine();
-                    GetPlayerID(tempID);
-                    if (GetPlayerID(tempID).Equals("-1"))
-                    {
-                        Console.WriteLine("Player ID not found.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Player ID found.");
-                        // Display player profile details here
-                        int id = Convert.ToInt32(GetPlayerID(tempID));
-
-                        PrintPlayerProfile(id);
-
-
-                    }
-
-                    break;
-                case 2:
-                    // Display all profiles
-                    for (int j = 0; j < listOfPlayers.Length; j++)
-                    {
-                        PrintPlayerProfile(j);
-                    }
-                    break;
-                case 3:
-                    // Run stats
-                    break;
-                case 4:
-                    // Un/Suspend player
-                    break;
-                case 5:
-                    // Return to Main Menu
-                    break;
-            }
-
+            accessGranted = true;
+            break;
         }
         else
         {
             Console.WriteLine("Access has been denied!");
             i++;
+        }
+    }
+
+    if(accessGranted == false)
+    {
+        Console.WriteLine("Too many incorrect attempts, returning to main menu.");
+        return;
+    }
+
+    Console.WriteLine("You have been logged in to the admin menu");
+    // Admin menu functionality goes here
+    Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
+        "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
+
+    int menuChoice = Convert.ToInt32(Console.ReadLine());
+
+    switch (menuChoice)
+    {
+        case 1:
+            // View a profile
+            Console.WriteLine("Enter player ID to view profile:");
+            string tempID = Console.ReadLine();
+            GetPlayerID(tempID);
+            if (GetPlayerID(tempID).Equals("-1"))
+            {
+                Console.WriteLine("Player ID not found.");
+            }
+            else
+            {
+                Console.WriteLine("Player ID found.");
+                // Display player profile details here
+                int id = Convert.ToInt32(GetPlayerID(tempID));
+
+                PrintPlayerProfile(id);
+            }
+
+            break;
+        case 2:
+            // Display all profiles
+            for (int j = 0; j < listOfPlayers.Length; j++)
+            {
+                PrintPlayerProfile(j);
+            }
+            break;
+        case 3:
+            // Run stats
+            HangmanHighScore(listOfPlayers);
+            
+            TicTacToeHighScore(listOfPlayers);
+            
+            HighestAverageScore(listOfPlayers);
+            break;
+        case 4:
+            // Un/Suspend player
+            break;
+        case 5:
+            // Return to Main Menu
+            break;
+    }
+}
+
+void HangmanHighScore(Player[] listOfPlayers)
+{
+    int highScore = listOfPlayers[0].HangmanScore;
+    int index=0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].HangmanScore > highScore)
+        {
+            highScore = listOfPlayers[i].HangmanScore;
+            index = i;
+        }   
+    }
+    Console.WriteLine($"The highest Hangman score is: {highScore}");
+    Console.WriteLine($"It is found at index {index}");
+}
+
+void TicTacToeHighScore(Player[] listOfPlayers)
+{
+    int highScore = listOfPlayers[0].TicTacToeScore;
+    int index = 0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].TicTacToeScore > highScore)
+        {
+            highScore = listOfPlayers[i].TicTacToeScore;
+            index = i;
         }
     }
 }
@@ -267,11 +320,12 @@ void DisplayT3Board()
             {
                 Console.Write(ticTacToeBoard[rows, collums]);
 
-            }
-            Console.WriteLine("");
-
         }
-        Console.WriteLine();
+        Console.WriteLine("");
+
+    }
+
+    Console.WriteLine();
 
         switch (TicTacToeInput(ticTacToeBoard))
         {
@@ -310,6 +364,7 @@ void DisplayT3Board()
         //int r = Convert.ToInt32(Console.ReadLine());
         //int c = Convert.ToInt32(Console.ReadLine());
 
+        }
 
 
 
