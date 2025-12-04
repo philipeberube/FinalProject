@@ -19,67 +19,7 @@ do
         case 1:
             // Admin menu
             Console.WriteLine ("Welcome to the admin menu");
-            for (int i = 0; i < 3;)
-            {
-                Console.WriteLine("Please enter the admin password:");
-                string inputPsswd = Console.ReadLine();
-                if (inputPsswd == psswd)
-                {
-                
-                    Console.WriteLine("You have been logged in to the admin menu");
-                    // Admin menu functionality goes here
-                    Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
-                        "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
-
-                    int menuChoice = Convert.ToInt32(Console.ReadLine());
-
-                    switch (menuChoice)
-                    {
-                        case 1:
-                            // View a profile
-                            Console.WriteLine("Enter player ID to view profile:");
-                            string tempID = Console.ReadLine();
-                            GetPlayerID (tempID);
-                            if (GetPlayerID(tempID).Equals("-1"))
-                            {
-                                Console.WriteLine("Player ID not found.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Player ID found.");
-                                // Display player profile details here
-                                int id = Convert.ToInt32(GetPlayerID(tempID));
-
-                                PrintPlayerProfile(id);
-
-
-                            }
-                        break;
-                        case 2:
-                            // Display all profiles
-                            for (int j = 0; j < listOfPlayers.Length; j++)
-                            {
-                                PrintPlayerProfile(j);
-                            }
-                            break;
-                        case 3:
-                            // Run stats
-                            break;
-                        case 4:
-                            // Un/Suspend player
-                            break;
-                        case 5:
-                            // Return to Main Menu
-                            break;
-                    }
-
-                }
-                else
-                {
-                    Console.WriteLine("Access has been denied!");
-                    i++;
-                }
-            }
+            AdminMenu();
             break;
         case 2:
             // Player menu
@@ -139,67 +79,73 @@ void PrintPlayerProfile (int index)
 
 void AdminMenu()
 {
+    bool accessGranted = false;
     for (int i = 0; i < 3;)
     {
         Console.WriteLine("Please enter the admin password:");
         string inputPsswd = Console.ReadLine();
         if (inputPsswd == psswd)
         {
-
-            Console.WriteLine("You have been logged in to the admin menu");
-            // Admin menu functionality goes here
-            Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
-                "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
-
-            int menuChoice = Convert.ToInt32(Console.ReadLine());
-
-            switch (menuChoice)
-            {
-                case 1:
-                    // View a profile
-                    Console.WriteLine("Enter player ID to view profile:");
-                    string tempID = Console.ReadLine();
-                    GetPlayerID(tempID);
-                    if (GetPlayerID(tempID).Equals("-1"))
-                    {
-                        Console.WriteLine("Player ID not found.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Player ID found.");
-                        // Display player profile details here
-                        int id = Convert.ToInt32(GetPlayerID(tempID));
-
-                        PrintPlayerProfile(id);
-
-
-                    }
-
-                    break;
-                case 2:
-                    // Display all profiles
-                    for (int j = 0; j < listOfPlayers.Length; j++)
-                    {
-                        PrintPlayerProfile(j);
-                    }
-                    break;
-                case 3:
-                    // Run stats
-                    break;
-                case 4:
-                    // Un/Suspend player
-                    break;
-                case 5:
-                    // Return to Main Menu
-                    break;
-            }
-
+            accessGranted = true;
+            break;
         }
         else
         {
             Console.WriteLine("Access has been denied!");
             i++;
         }
+    }
+
+    if(accessGranted == false)
+    {
+        Console.WriteLine("Too many incorrect attempts, returning to main menu.");
+        return;
+    }
+
+    Console.WriteLine("You have been logged in to the admin menu");
+    // Admin menu functionality goes here
+    Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
+        "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
+
+    int menuChoice = Convert.ToInt32(Console.ReadLine());
+
+    switch (menuChoice)
+    {
+        case 1:
+            // View a profile
+            Console.WriteLine("Enter player ID to view profile:");
+            string tempID = Console.ReadLine();
+            GetPlayerID(tempID);
+            if (GetPlayerID(tempID).Equals("-1"))
+            {
+                Console.WriteLine("Player ID not found.");
+            }
+            else
+            {
+                Console.WriteLine("Player ID found.");
+                // Display player profile details here
+                int id = Convert.ToInt32(GetPlayerID(tempID));
+
+                PrintPlayerProfile(id);
+            }
+
+            break;
+        case 2:
+            // Display all profiles
+            for (int j = 0; j < listOfPlayers.Length; j++)
+            {
+                PrintPlayerProfile(j);
+            }
+            break;
+        case 3:
+            // Run stats
+            break;
+        case 4:
+            // Un/Suspend player
+            break;
+        case 5:
+            // Return to Main Menu
+            break;
     }
 }
 
@@ -214,31 +160,48 @@ void DisplayT3Board()
     char currentPlayer = 'X';
     Console.WriteLine("Starting Tic Tac Toe...");
     Console.WriteLine("setting up a new board...\n");
+    
+        
+    for (int rows = 0; rows < ticTacToeBoard.GetLength(0); rows++)
+    {
+        for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
+        {
+            ticTacToeBoard[rows, collums] = temp++;
+            Console.Write(ticTacToeBoard[rows, collums]);
+
+        }
+        Console.WriteLine("");
+
+    }
+
+    Console.WriteLine();
+
+    Console.WriteLine("Hello player 1 please enter your name:");
+    string player0Name = Console.ReadLine();
+    Console.WriteLine("Hello player 2 please enter your name:");
+    string player1Name = Console.ReadLine();
+
     for (int currentplayer = 0; currentplayer < 3; currentplayer++)
-    { 
+    {   
         currentplayer = currentplayer % 2;
         if (currentplayer == 0) { currentPlayer = 'X'; }
         else currentPlayer = 'O';
+
+        Console.WriteLine($"It is {currentPlayer}'s turn");
+        Console.WriteLine("PLease enter the row followed by the collum you want to place your peace in (0-2)");
+        int r = Convert.ToInt32(Console.ReadLine());
+        int c = Convert.ToInt32(Console.ReadLine());
         for (int rows = 0; rows < ticTacToeBoard.GetLength(0); rows++)
         {
             for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
             {
-                ticTacToeBoard[rows, collums] = temp++;
+                
                 Console.Write(ticTacToeBoard[rows, collums]);
 
             }
             Console.WriteLine("");
 
         }
-        Console.WriteLine();
-
-
-        Console.WriteLine("hello player 1 please enter your name:");
-        string player1Name = Console.ReadLine();
-        Console.WriteLine("PLease enter the row followed by the collum you want to place your peace in (0-2)");
-        int r = Convert.ToInt32(Console.ReadLine());
-        int c = Convert.ToInt32(Console.ReadLine());
-
 
 
 
