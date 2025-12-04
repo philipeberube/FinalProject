@@ -11,17 +11,7 @@ int numOfPlayers = 0;
 const string psswd = "2025";
 bool exit = false;
 int choice = 0;
-Player player1 = new Player
-{
-    Id = "P001",
-    Name = "Alice",
-    NumOfHangmanGamesPlayed = 5,
-    NumOfTicTacToeGamesPlayed = 3,
-    HangmanScore = 80,
-    TicTacToeScore = 50,
-    AvgScore = 65.0f,
-    IsSuspended = false
-};
+
 do
 {
     Console.WriteLine("Welcome to B&B Games would you like to enter\n1- admin menu\n2- the player menu\n3- exit");
@@ -155,7 +145,7 @@ void AdminMenu()
             
             TicTacToeHighScore(listOfPlayers);
             
-            HighestAverageScore(listOfPlayers);
+            //HighestAverageScore(listOfPlayers);
             break;
         case 4:
             // Un/Suspend player
@@ -274,13 +264,13 @@ void EnterAccount()
         }
         else { Console.WriteLine("please enter a valid Id"); }
     }
-    
-    Console.WriteLine(
+
+    Console.WriteLine();
 
 
 
 }
-
+ 
 
 void DisplayT3Board()
 {
