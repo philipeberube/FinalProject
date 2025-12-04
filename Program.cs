@@ -83,6 +83,9 @@ do
             break;
         case 2:
             // Player menu
+            Console.WriteLine("Welcome to the player menu");
+
+            DisplayT3Board();
             break;
         case 3:
             // Exit
@@ -200,6 +203,65 @@ void AdminMenu()
     }
 }
 
+
+
+
+void DisplayT3Board()
+{
+    char temp = '1';
+    // Tic Tac Toe game logic goes here
+    char[,] ticTacToeBoard = new char[3, 3];
+    char currentPlayer = 'X';
+    Console.WriteLine("Starting Tic Tac Toe...");
+    Console.WriteLine("setting up a new board...\n");
+    for (int currentplayer = 0; currentplayer < 3; currentplayer++)
+    { 
+        currentplayer = currentplayer % 2;
+        if (currentplayer == 0) { currentPlayer = 'X'; }
+        else currentPlayer = 'O';
+        for (int rows = 0; rows < ticTacToeBoard.GetLength(0); rows++)
+        {
+            for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
+            {
+                ticTacToeBoard[rows, collums] = temp++;
+                Console.Write(ticTacToeBoard[rows, collums]);
+
+            }
+            Console.WriteLine("");
+
+        }
+        Console.WriteLine();
+
+
+        Console.WriteLine("hello player 1 please enter your name:");
+        string player1Name = Console.ReadLine();
+        Console.WriteLine("PLease enter the row followed by the collum you want to place your peace in (0-2)");
+        int r = Convert.ToInt32(Console.ReadLine());
+        int c = Convert.ToInt32(Console.ReadLine());
+
+
+
+
+        IsWinner(ticTacToeBoard);
+        
+    }
+}
+
+bool IsWinner(char[,] board)
+{
+    if (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] || board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] 
+        || board[2, 0] == board[2, 1] && board[2, 1] == board[2, 2] || board[0, 0] == board[1, 0] && board[1, 0] == board[2, 0] 
+        || board[1, 0] == board[1, 1] && board[1, 1] == board[2, 1] || board[2, 0] == board[1, 2] && board[1, 2] == board[2, 2] 
+        || board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] || board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0])
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
 struct Player 
 {
     public string Id;
