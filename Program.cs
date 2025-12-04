@@ -179,7 +179,7 @@ void HangmanHighScore(Player[] listOfPlayers)
     Console.WriteLine($"The highest Hangman score is: {highScore}");
     Console.WriteLine($"It is found at index {index}");
 }
-
+ 
 void TicTacToeHighScore(Player[] listOfPlayers)
 {
     int highScore = listOfPlayers[0].TicTacToeScore;
