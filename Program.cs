@@ -8,7 +8,17 @@ int numOfPlayers = 0;
 const string psswd = "2025";
 bool exit = false;
 int choice = 0;
-
+Player player1 = new Player
+{
+    Id = "P001",
+    Name = "Alice",
+    NumOfHangmanGamesPlayed = 5,
+    NumOfTicTacToeGamesPlayed = 3,
+    HangmanScore = 80,
+    TicTacToeScore = 50,
+    AvgScore = 65.0f,
+    IsSuspended = false
+};
 do
 {
     Console.WriteLine("Welcome to B&B Games would you like to enter\n1- admin menu\n2- the player menu\n3- exit");
@@ -139,6 +149,11 @@ void AdminMenu()
             break;
         case 3:
             // Run stats
+            HangmanHighScore(listOfPlayers);
+            
+            TicTacToeHighScore(listOfPlayers);
+            
+            HighestAverageScore(listOfPlayers);
             break;
         case 4:
             // Un/Suspend player
@@ -149,8 +164,53 @@ void AdminMenu()
     }
 }
 
+void HangmanHighScore(Player[] listOfPlayers)
+{
+    int highScore = listOfPlayers[0].HangmanScore;
+    int index=0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].HangmanScore > highScore)
+        {
+            highScore = listOfPlayers[i].HangmanScore;
+            index = i;
+        }   
+    }
+    Console.WriteLine($"The highest Hangman score is: {highScore}");
+    Console.WriteLine($"It is found at index {index}");
+}
 
+void TicTacToeHighScore(Player[] listOfPlayers)
+{
+    int highScore = listOfPlayers[0].TicTacToeScore;
+    int index = 0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].TicTacToeScore > highScore)
+        {
+            highScore = listOfPlayers[i].TicTacToeScore;
+            index = i;
+        }
+    }
+    Console.WriteLine($"The highest Tic Tac Toe score is: {highScore}");
+    Console.WriteLine($"It is found at index {index}");
+}
 
+void HighestAverageScore(Player[] listOfPlayers)
+{
+    float highAvgScore = listOfPlayers[0].AvgScore;
+    int index = 0;
+    for (int i = 0; i < numOfPlayers; i++)
+    {
+        if (listOfPlayers[i].AvgScore > highAvgScore)
+        {
+            highAvgScore = listOfPlayers[i].AvgScore;
+            index = i;
+        }
+    }
+    Console.WriteLine($"The highest Average score is: {highAvgScore}");
+    Console.WriteLine($"It is found at index {index}");
+}
 
 void DisplayT3Board()
 {
