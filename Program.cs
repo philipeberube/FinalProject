@@ -12,7 +12,7 @@ const string psswd = "2025";
 bool exit = false;
 int choice = 0;
 int randomWord = 0;
-hangman();
+
 
 
 do
@@ -107,16 +107,19 @@ void AdminMenu()
         Console.WriteLine("Too many incorrect attempts, returning to main menu.");
         return;
     }
+    
     char leave = 'n';
     Console.WriteLine("You have been logged in to the admin menu");
+    
     // Admin menu functionality goes here
+    
     do 
     {
         Console.WriteLine("What would you like to do\n1- View a profile\n2- Display all profiles" +
         "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
 
         int menuChoice = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("\n");
+        Console.WriteLine("\n");
     
 
     
@@ -368,10 +371,10 @@ void DisplayT3Board()
     player[1] = listOfPlayers[Convert.ToInt32(tempId)].Name;
 
 
-    for (int currentplayer = 0; currentplayer < 3; currentplayer++)
+    for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
     {
-        currentplayer = currentplayer % 2;
-        if (currentplayer == 0) { currentPlayer = 'X'; }
+        currentPlayerInt = currentPlayerInt % 2;
+        if (currentPlayerInt == 0) { currentPlayer = 'X'; }
         else currentPlayer = 'O';
 
         for (int rows = 0; rows < ticTacToeBoard.GetLength(0); rows++)// prining board 
@@ -422,23 +425,23 @@ void DisplayT3Board()
 
         if (IsWinner(ticTacToeBoard)== true)
         {  
-            Console.WriteLine($"Congratulations {player[currentplayer]} you have won the game!");
-            if (currentplayer == 0)
+            Console.WriteLine($"Congratulations {player[currentPlayerInt]} you have won the game!");
+            if (currentPlayerInt == 0)
             {
-                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore += 2;
-                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore -= 0;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 2;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 0;
             }
-            else if (currentplayer == 1)
+            else if (currentPlayerInt == 1)
             {
-                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore += 2;
-                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore -= 0;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 2;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 0;
             }
             else
             {
-                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore += 1;
-                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore += 1;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 1;
+                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 1;
             }
-            break;
+
 
         }
             
@@ -460,22 +463,22 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
 
 char TicTacToeInput(char[,] board)
 {
-    char playerchoice;
+    char playerChoice;
     bool spaceTaken = true;
     do
     {
         do
         {
             Console.WriteLine("Please enter which space you want to play in");
-            playerchoice = Convert.ToChar(Console.ReadLine());
+            playerChoice = Convert.ToChar(Console.ReadLine());
 
-        } while (playerchoice != '1' && playerchoice != '2' && playerchoice != '3' && playerchoice != '4' && playerchoice != '5' && playerchoice != '6' && playerchoice != '7' && playerchoice != '8' && playerchoice != '9');
+        } while (playerChoice != '1' && playerChoice != '2' && playerChoice != '3' && playerChoice != '4' && playerChoice != '5' && playerChoice != '6' && playerChoice != '7' && playerChoice != '8' && playerChoice != '9');
 
         for (int i = 0; i < board.GetLength(0); i++)
         {
             for (int j = 0; j < board.GetLength(1); j++)
             {
-                if (board[i, j] == playerchoice)
+                if (board[i, j] == playerChoice)
                 {
                     spaceTaken = false; 
                 }
@@ -484,7 +487,7 @@ char TicTacToeInput(char[,] board)
 
     }while (spaceTaken);
 
-    return playerchoice;
+    return playerChoice;
 }
 
 bool IsWinner(char[,] board)
@@ -506,7 +509,7 @@ bool IsWinner(char[,] board)
 
 void hangman()
 {
-    int guesseCheck = 0;
+    int guessCheck = 0;
     int wrongGuesses = 0;
     int maxWrongGuesseus = 6;
     string tempSecret_word =GetRandomWord();
@@ -521,17 +524,17 @@ void hangman()
         foreach (char c in user_word) { Console.Write(c); }
         Console.WriteLine();
         Console.WriteLine("Please enter a character");
-        char guesse = Convert.ToChar(Console.ReadLine());
+        char guess = Convert.ToChar(Console.ReadLine());
         for (int i = 0; i < secret_word.Length; i++)
         {
-            if(guesse == secret_word[i]) 
+            if(guess == secret_word[i]) 
             {
-                user_word[i] = guesse; 
-                guesseCheck++;
+                user_word[i] = guess; 
+                guessCheck++;
             }
         }
-        if (guesseCheck == 0) { wrongGuesses++; } 
-        guesseCheck = 0;
+        if (guessCheck == 0) { wrongGuesses++; } 
+        guessCheck = 0;
 
         if (wrongGuesses == maxWrongGuesseus)
         {
