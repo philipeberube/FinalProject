@@ -36,7 +36,7 @@ do
                 char exitout;
                 do
                 {
-                    Console.WriteLine("do you want to exit the application and lose all saved files (y/n)");
+                    Console.WriteLine("Do you want to exit the application and lose all saved files (y/n)");
                     exitout = Convert.ToChar(Console.ReadLine().ToLower());
                 } while (exitout != 'y' && exitout != 'n');
 
@@ -86,6 +86,7 @@ void AdminMenu()
     {
         Console.WriteLine("Please enter the admin password:");
         string inputPsswd = Console.ReadLine();
+        Console.WriteLine("\n");
         if (inputPsswd == psswd)
         {
             accessGranted = true;
@@ -103,59 +104,83 @@ void AdminMenu()
         Console.WriteLine("Too many incorrect attempts, returning to main menu.");
         return;
     }
-
+    char leave = 'n';
     Console.WriteLine("You have been logged in to the admin menu");
     // Admin menu functionality goes here
-    Console.WriteLine("what would you like to do\n1- View a profile\n2- Display all profiles" +
+    do 
+    {
+        Console.WriteLine("What would you like to do\n1- View a profile\n2- Display all profiles" +
         "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
 
-    int menuChoice = Convert.ToInt32(Console.ReadLine());
+        int menuChoice = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\n");
+    
 
-    switch (menuChoice)
-    {
-        case 1:
-            // View a profile
-            Console.WriteLine("Enter player ID to view profile:");
-            string tempID = Console.ReadLine();
-            GetPlayerID(tempID);
-            if (GetPlayerID(tempID).Equals("-1"))
-            {
-                Console.WriteLine("Player ID not found.");
-            }
-            else
-            {
-                Console.WriteLine("Player ID found.");
-                // Display player profile details here
-                int id = Convert.ToInt32(GetPlayerID(tempID));
+    
+        
+        switch (menuChoice)
+        {
+            case 1:
+                // View a profile
+                Console.WriteLine("Enter player ID to view profile:");
+                string tempID = Console.ReadLine();
+                Console.WriteLine("\n");
+                GetPlayerID(tempID);
+                if (GetPlayerID(tempID).Equals("-1"))
+                {
+                    Console.WriteLine("Player ID not found.");
+                }
+                else
+                {
+                    Console.WriteLine("Player ID found.");
+                    // Display player profile details here
+                    int id = Convert.ToInt32(GetPlayerID(tempID));
 
-                PrintPlayerProfile(id);
-            }
+                    PrintPlayerProfile(id);
+                }
 
-            break;
-        case 2:
-            // Display all profiles
-            for (int j = 0; j < numOfPlayers; j++)
-            {
-                PrintPlayerProfile(j);
-            }
-            break;
-        case 3:
-            // Run stats
-            HangmanHighScore(listOfPlayers);
+                break;
+            case 2:
+                // Display all profiles
+                for (int j = 0; j < numOfPlayers; j++)
+                {
+                    PrintPlayerProfile(j);
+                }
+                break;
+            case 3:
+                // Run stats
+                HangmanHighScore(listOfPlayers);
             
-            TicTacToeHighScore(listOfPlayers);
+                TicTacToeHighScore(listOfPlayers);
             
-            //HighestAverageScore(listOfPlayers);
-            break;
-        case 4:
-            // Un/Suspend player
-            break;
-        case 5:
-            // Return to Main Menu
-            break;
-    }
+                HighestAverageScore(listOfPlayers);
+                break;
+            case 4:
+                // Un/Suspend player
+                break;
+            case 5:
+                // Return to Main Menu
+                break;
+        }
+
+        leave = MainReturn();
+
+    } while (leave == 'n');
 }
+char MainReturn()
+{
 
+    char leave = 'n';
+    
+    do
+    {
+
+        Console.WriteLine("Do you want to leave the menu? (y/n)");
+        leave = Convert.ToChar(Console.ReadLine().ToLower());
+
+    } while (leave != 'y' && leave != 'n');
+    return leave;
+}
 void HangmanHighScore(Player[] listOfPlayers)
 {
     int highScore = listOfPlayers[0].HangmanScore;
@@ -184,6 +209,8 @@ void TicTacToeHighScore(Player[] listOfPlayers)
             index = i;
         }
     }
+    Console.WriteLine($"The highest TicTacToe score is: {highScore}");
+    Console.WriteLine($"It is found at index {index}");
 }
 
 void HighestAverageScore(Player[] listOfPlayers)
@@ -227,7 +254,7 @@ void CreateAccount()
     char answr;
     do
     {
-        Console.WriteLine("please enter a new ID");
+        Console.WriteLine("Please enter a new ID");
         tempId = Console.ReadLine();
         for (int i = 0; i < listOfPlayers.Length; i++)
         {
@@ -241,11 +268,11 @@ void CreateAccount()
     
     do
     {
-        Console.WriteLine("please enter your username");
+        Console.WriteLine("Please enter your username");
         tempName = Console.ReadLine();
         do
         {
-            Console.WriteLine("are you sure of that name (y/n)");
+            Console.WriteLine("Are you sure of that name (y/n)");
             answr = Convert.ToChar(Console.ReadLine().ToLower());
 
         } while (answr != 'y' && answr != 'n');
@@ -268,7 +295,7 @@ void EnterAccount()
     {
         do
         {
-            Console.WriteLine("please enter your Id");
+            Console.WriteLine("Please enter your Id");
             tempId = Console.ReadLine();
             id = GetPlayerID(tempId);
         } while (id == "-1");
@@ -278,7 +305,7 @@ void EnterAccount()
             PrintPlayerProfile(Id);
             break;
         }
-        else { Console.WriteLine("please enter a valid Id"); }
+        else { Console.WriteLine("Please enter a valid Id"); }
     }
 
     Console.WriteLine();
@@ -304,13 +331,13 @@ void DisplayT3Board()
     }
     char currentPlayer = 'X';
     Console.WriteLine("Starting Tic Tac Toe...");
-    Console.WriteLine("setting up a new board...\n");
+    Console.WriteLine("Setting up a new board...\n");
 
     String[] player = new string[2];
 
-    Console.WriteLine("hello player 1 please enter your name:");
+    Console.WriteLine("Hello player 1 please enter your name:");
     player[0] = Console.ReadLine();
-    Console.WriteLine("hello player 2 please enter your name:");
+    Console.WriteLine("Hello player 2 please enter your name:");
     player[1] = Console.ReadLine();
 
 
@@ -398,7 +425,7 @@ char TicTacToeInput(char[,] board)
     {
         do
         {
-            Console.WriteLine("please enter which space you want to play in");
+            Console.WriteLine("Please enter which space you want to play in");
             playerchoice = Convert.ToChar(Console.ReadLine());
 
         } while (playerchoice != '1' && playerchoice != '2' && playerchoice != '3' && playerchoice != '4' && playerchoice != '5' && playerchoice != '6' && playerchoice != '7' && playerchoice != '8' && playerchoice != '9');
