@@ -509,50 +509,57 @@ void hangman()
     int guesseCheck = 0;
     int wrongGuesses = 0;
     int maxWrongGuesseus = 6;
+    int victoryCheck = 1;
     string tempSecret_word =GetRandomWord();
     randomWord++;
     bool gameover = true;
     char[] secret_word = tempSecret_word.ToCharArray();
     char[] user_word = new char[secret_word.Length];
     for (int i = 0; i < user_word.Length; i++) { user_word[i] = '_'; }
-
+    foreach (char c in user_word) { Console.Write(c); }
     do
     {
-        foreach (char c in user_word) { Console.Write(c); }
         Console.WriteLine();
         Console.WriteLine("Please enter a character");
-        char guesse = Convert.ToChar(Console.ReadLine());
+        char guess = Convert.ToChar(Console.ReadLine().ToLower());
+
         for (int i = 0; i < secret_word.Length; i++)
         {
-            if(guesse == secret_word[i]) 
+            if (guess == user_word[i])
             {
-                user_word[i] = guesse; 
+                Console.WriteLine("You have already entered that letter");
+                break;
+            }
+
+            if (guess == secret_word[i])
+            {
+                user_word[i] = guess;
                 guesseCheck++;
             }
         }
+        foreach (char c in user_word) { Console.Write(c); }
+        for (int i = 0; i < secret_word.Length; i++)
+        {
+            if (user_word[i] == secret_word[i]) { victoryCheck++; }
+        }
+
         if (guesseCheck == 0) { wrongGuesses++; } 
         guesseCheck = 0;
 
+        if (victoryCheck == user_word.Length) 
+        {
+            Console.WriteLine();
+            Console.WriteLine("Congrats you won!!!");
+            gameover = false;
+        }
+        victoryCheck = 0;
         if (wrongGuesses == maxWrongGuesseus)
         {
+            Console.WriteLine();
             Console.WriteLine("You ran out of guesses GAME OVER!!!");
             gameover = false;
         }
-        
-
-
-
-
-
-
-
     }while(gameover); 
-
-
-
-
-
-
 
 }
 
