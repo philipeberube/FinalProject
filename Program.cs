@@ -26,7 +26,7 @@ do
             break;
         case 2:
             // Player menu
-            Console.WriteLine("Welcome to the player menu");
+            PlayerMenu();
 
             break;
         case 3:
@@ -134,7 +134,7 @@ void AdminMenu()
             break;
         case 2:
             // Display all profiles
-            for (int j = 0; j < listOfPlayers.Length; j++)
+            for (int j = 0; j < numOfPlayers; j++)
             {
                 PrintPlayerProfile(j);
             }
@@ -204,12 +204,12 @@ void HighestAverageScore(Player[] listOfPlayers)
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: creat account\n2: check account");
+    Console.WriteLine("What would you like to do \n1: create account\n2: check account");
     int input = Convert.ToInt32(Console.ReadLine());
     switch (input)
     {
         case 1:
-            CreatAccount();
+            CreateAccount();
             numOfPlayers++;
 
             break;
@@ -219,7 +219,7 @@ void PlayerMenu()
     }
         
 }
-void CreatAccount()
+void CreateAccount()
 {
     bool doesntOverlap = false;
     string tempId;
@@ -376,7 +376,7 @@ void DisplayT3Board()
 
         IsWinner(ticTacToeBoard);
         
-    }
+    
 }
 
 
