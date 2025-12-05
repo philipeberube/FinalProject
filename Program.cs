@@ -11,6 +11,9 @@ int numOfPlayers = 0;
 const string psswd = "2025";
 bool exit = false;
 int choice = 0;
+int randomWord = 0;
+hangman();
+
 
 do
 {
@@ -232,6 +235,7 @@ void HighestAverageScore(Player[] listOfPlayers)
     Console.WriteLine($"The highest Average score is: {highScore}");
     Console.WriteLine($"It is found at index {index}");
 }
+
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
@@ -253,6 +257,7 @@ void PlayerMenu()
     }
         
 }
+
 void CreateAccount()
 {
     bool doesntOverlap = false;
@@ -261,9 +266,10 @@ void CreateAccount()
     char answr;
     do
     {
+        doesntOverlap = false;
         Console.WriteLine("Please enter a new ID");
         tempId = Console.ReadLine();
-        for (int i = 0; i < listOfPlayers.Length; i++)
+        for (int i = 0; i < numOfPlayers; i++)
         {
             if (tempId == listOfPlayers[i].Id)
             {
@@ -271,7 +277,8 @@ void CreateAccount()
                 break;
             }
         }
-    }while (doesntOverlap);
+        
+    } while (doesntOverlap);
     
     do
     {
@@ -292,30 +299,39 @@ void CreateAccount()
 
 
 }
+
 void EnterAccount()
 {
     string tempId;
     string id;
     int Id;
-
-    for (int i = 0;i <=3 ;i++)
+    
+    if(numOfPlayers == 0)
     {
-        do
+        Console.WriteLine("There are no accounts");
+    }
+    else
+    {
+        for (int i = 0; i <= 3; i++)
         {
-            Console.WriteLine("Please enter your Id");
-            tempId = Console.ReadLine();
-            id = GetPlayerID(tempId);
-        } while (id == "-1");
-        if (id != "-1")
-        {
-            Id = Convert.ToInt32(GetPlayerID(tempId));
-            PrintPlayerProfile(Id);
-            break;
+            do
+            {
+                Console.WriteLine("Please enter your Id");
+                tempId = Console.ReadLine();
+                id = GetPlayerID(tempId);
+            } while (id == "-1");
+            if (id != "-1")
+            {
+                Id = Convert.ToInt32(GetPlayerID(tempId));
+                PrintPlayerProfile(Id);
+                break;
+            }
+            else { Console.WriteLine("Please enter a valid Id"); }
         }
-        else { Console.WriteLine("Please enter a valid Id"); }
     }
 
-    Console.WriteLine();
+
+
 
 
 
@@ -332,7 +348,6 @@ void DisplayT3Board()
         for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
         {
             ticTacToeBoard[rows, collums] = temp++;
-
 
         }
     }
@@ -420,16 +435,11 @@ void DisplayT3Board()
     
 }
 
-
-
-
 char[,] SwapInBoard(char[,] board,int r,int c, char swap)
 {
     board[r,c] = swap;
     return board;
 }
-
-
 
 char TicTacToeInput(char[,] board)
 {
@@ -460,8 +470,6 @@ char TicTacToeInput(char[,] board)
     return playerchoice;
 }
 
-  
-
 bool IsWinner(char[,] board)
 {
     if (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] || board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] 
@@ -478,6 +486,76 @@ bool IsWinner(char[,] board)
     }
 
 }
+
+void hangman()
+{
+    int guesseCheck = 0;
+    int wrongGuesses = 0;
+    int maxWrongGuesseus = 6;
+    string tempSecret_word =GetRandomWord();
+    randomWord++;
+    bool gameover = true;
+    char[] secret_word = tempSecret_word.ToCharArray();
+    char[] user_word = new char[secret_word.Length];
+    for (int i = 0; i < user_word.Length; i++) { user_word[i] = '_'; }
+
+    do
+    {
+        foreach (char c in user_word) { Console.Write(c); }
+        Console.WriteLine();
+        Console.WriteLine("Please enter a character");
+        char guesse = Convert.ToChar(Console.ReadLine());
+        for (int i = 0; i < secret_word.Length; i++)
+        {
+            if(guesse == secret_word[i]) 
+            {
+                user_word[i] = guesse; 
+                guesseCheck++;
+            }
+        }
+        if (guesseCheck == 0) { wrongGuesses++; } 
+        guesseCheck = 0;
+
+        if (wrongGuesses == maxWrongGuesseus)
+        {
+            Console.WriteLine("You ran out of guesses GAME OVER!!!");
+            gameover = false;
+        }
+        
+
+
+
+
+
+
+
+    }while(gameover); 
+
+
+
+
+
+
+
+}
+
+string GetRandomWord()
+{
+    
+
+    string[] word =
+    {
+        "hangman","tictactoe","bananas","science", "pneumonoultramicroscopicsilicovolcanoconiosis",
+        "Supercalifragilisticexpialidocious","character","comfortable","thunder","exile","parallel",
+        "simulator","access","space","fragrant","create","display","update","program","maximum","minimum"
+    };
+    if (randomWord == word.Length) { randomWord = 0;}
+
+    return word[randomWord];
+
+
+}
+
 struct Player 
 {
     public string Id;
