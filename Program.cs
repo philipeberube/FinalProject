@@ -137,6 +137,7 @@ void AdminMenu()
                     int id = Convert.ToInt32(GetPlayerID(tempID));
 
                     PrintPlayerProfile(id);
+                    
                 }
 
                 break;
@@ -145,6 +146,7 @@ void AdminMenu()
                 for (int j = 0; j < numOfPlayers; j++)
                 {
                     PrintPlayerProfile(j);
+                    
                 }
                 break;
             case 3:
@@ -154,16 +156,18 @@ void AdminMenu()
                 TicTacToeHighScore(listOfPlayers);
             
                 HighestAverageScore(listOfPlayers);
+
                 break;
             case 4:
                 // Un/Suspend player
+
                 break;
             case 5:
                 // Return to Main Menu
+
+                leave = MainReturn();
                 break;
         }
-
-        leave = MainReturn();
 
     } while (leave == 'n');
 }
@@ -175,7 +179,7 @@ char MainReturn()
     do
     {
 
-        Console.WriteLine("Do you want to leave the menu? (y/n)");
+        Console.WriteLine("Do you want to return to main menu? (y/n)");
         leave = Convert.ToChar(Console.ReadLine().ToLower());
 
     } while (leave != 'y' && leave != 'n');
