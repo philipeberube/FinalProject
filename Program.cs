@@ -235,7 +235,7 @@ void HighestAverageScore(Player[] listOfPlayers)
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: create account\n2: check account");
+    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play tictactoe");
     int input = Convert.ToInt32(Console.ReadLine());
     switch (input)
     {
@@ -246,6 +246,9 @@ void PlayerMenu()
             break;
         case 2:
             EnterAccount();
+            break;
+        case 3:
+            DisplayT3Board();
             break;
     }
         
@@ -346,7 +349,7 @@ void DisplayT3Board()
 
 
     for (int currentplayer = 0; currentplayer < 3; currentplayer++)
-    { 
+    {
         currentplayer = currentplayer % 2;
         if (currentplayer == 0) { currentPlayer = 'X'; }
         else currentPlayer = 'O';
@@ -357,12 +360,12 @@ void DisplayT3Board()
             {
                 Console.Write(ticTacToeBoard[rows, collums]);
 
+            }
+            Console.WriteLine("");
+
         }
-        Console.WriteLine("");
 
-    }
-
-    Console.WriteLine();
+        Console.WriteLine();
 
         switch (TicTacToeInput(ticTacToeBoard))
         {
@@ -400,12 +403,19 @@ void DisplayT3Board()
         //Console.WriteLine("PLease enter the row followed by the collum you want to place your peace in (0-2)");
         //int r = Convert.ToInt32(Console.ReadLine());
         //int c = Convert.ToInt32(Console.ReadLine());
+        if (IsWinner(ticTacToeBoard)== true)
+        {  
+            Console.WriteLine($"Congratulations {player[currentplayer]} you have won the game!");
+            break;
 
         }
+            
 
 
+    }
 
-        IsWinner(ticTacToeBoard);
+
+        
         
     
 }
