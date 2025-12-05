@@ -477,7 +477,7 @@ char TicTacToeInput(char[,] board)
     return playerchoice;
 }
 
-
+  
 
 bool IsWinner(char[,] board)
 {
