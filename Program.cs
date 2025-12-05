@@ -351,16 +351,21 @@ void DisplayT3Board()
 
         }
     }
+    string tempId;
     char currentPlayer = 'X';
     Console.WriteLine("Starting Tic Tac Toe...");
     Console.WriteLine("Setting up a new board...\n");
 
     String[] player = new string[2];
-
-    Console.WriteLine("Hello player 1 please enter your name:");
-    player[0] = Console.ReadLine();
-    Console.WriteLine("Hello player 2 please enter your name:");
-    player[1] = Console.ReadLine();
+    
+    Console.WriteLine("Hello player 1 please enter your ID:");
+    tempId = GetPlayerID(Console.ReadLine());
+    player[0] = listOfPlayers[Convert.ToInt32(tempId)].Name;
+        
+    Console.WriteLine(player[0]);
+    Console.WriteLine("Hello player 2 please enter your ID:");
+    tempId = GetPlayerID(Console.ReadLine());
+    player[1] = listOfPlayers[Convert.ToInt32(tempId)].Name;
 
 
     for (int currentplayer = 0; currentplayer < 3; currentplayer++)
@@ -415,12 +420,24 @@ void DisplayT3Board()
 
 
 
-        //Console.WriteLine("PLease enter the row followed by the collum you want to place your peace in (0-2)");
-        //int r = Convert.ToInt32(Console.ReadLine());
-        //int c = Convert.ToInt32(Console.ReadLine());
         if (IsWinner(ticTacToeBoard)== true)
         {  
             Console.WriteLine($"Congratulations {player[currentplayer]} you have won the game!");
+            if (currentplayer == 0)
+            {
+                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore += 2;
+                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore -= 0;
+            }
+            else if (currentplayer == 1)
+            {
+                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore += 2;
+                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore -= 0;
+            }
+            else
+            {
+                listOfPlayers[Convert.ToInt32(player[0])].TicTacToeScore += 1;
+                listOfPlayers[Convert.ToInt32(player[1])].TicTacToeScore += 1;
+            }
             break;
 
         }
