@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 Player[] listOfPlayers = new Player[50];
 int numOfPlayers = 0;
 
+
 const string psswd = "2025";
 bool exit = false;
 int choice = 0;
@@ -166,7 +167,8 @@ void AdminMenu()
                 break;
             case 4:
                 // Un/Suspend player
-
+                SuspendMenu();
+                
                 break;
             case 5:
                 // Return to Main Menu
@@ -242,7 +244,7 @@ void HighestAverageScore(Player[] listOfPlayers)
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play tictactoe");
+    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play tictactoe\n4: play hangman");
     int input = Convert.ToInt32(Console.ReadLine());
     switch (input)
     {
@@ -256,6 +258,9 @@ void PlayerMenu()
             break;
         case 3:
             DisplayT3Board();
+            break;
+        case 4:
+            hangman();
             break;
     }
         
@@ -339,7 +344,82 @@ void EnterAccount()
 
 
 }
- 
+
+void SuspendMenu()
+{
+    Console.WriteLine("What would you like to do \n1: suspend player\n2: unsuspend player");
+    int input = Convert.ToInt32(Console.ReadLine());
+    switch (input)
+    {
+        case 1:
+            SuspendPlayer();
+            break;
+        case 2:
+            UnsuspendPlayer();
+            break;
+    }
+}
+
+
+void SuspendPlayer()
+{
+    Console.WriteLine("Enter the player ID to suspend:");
+    string tempId = Console.ReadLine();
+    string tempId2 = GetPlayerID(tempId);
+    char suspendChoice;
+    if (tempId2 == "-1")
+    {
+        Console.WriteLine("Player ID not found.");
+        
+    }
+    else
+    {
+        int id = Convert.ToInt32(GetPlayerID(tempId));
+        Console.WriteLine($"Would you like to suspend {listOfPlayers[id].Name}? (y/n)");
+        do
+        {
+            suspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
+
+        }while (suspendChoice != 'y' && suspendChoice != 'n');
+        
+        if (suspendChoice == 'y')
+        {
+            listOfPlayers[id].IsSuspended = true;
+            Console.WriteLine($"{listOfPlayers[id].Name} has been suspended.");
+            
+        }
+        
+    }
+}
+void UnsuspendPlayer()
+{
+    Console.WriteLine("Enter the player ID to unsuspend:");
+    string tempId = Console.ReadLine();
+    string tempId2 = GetPlayerID(tempId);
+    char unsuspendChoice;
+    if (tempId2 == "-1")
+    {
+        Console.WriteLine("Player ID not found.");
+
+    }
+    else
+    {
+        int id = Convert.ToInt32(GetPlayerID(tempId));
+        Console.WriteLine($"Would you like to unsuspend {listOfPlayers[id].Name}? (y/n)");
+        do
+        {
+            unsuspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
+
+        } while (unsuspendChoice != 'y' && unsuspendChoice != 'n');
+
+        if (unsuspendChoice == 'y')
+        {
+            listOfPlayers[id].IsSuspended = false;
+            Console.WriteLine($"{listOfPlayers[id].Name} has been unsuspended.");
+            
+        }
+    }
+}
 
 void DisplayT3Board()
 {
@@ -537,7 +617,7 @@ void hangman()
             if (guess == secret_word[i])
             {
                 user_word[i] = guess;
-                guesseCheck++;
+                guessCheck++;
             }
         }
         foreach (char c in user_word) { Console.Write(c); }
@@ -546,8 +626,8 @@ void hangman()
             if (user_word[i] == secret_word[i]) { victoryCheck++; }
         }
 
-        if (guesseCheck == 0) { wrongGuesses++; } 
-        guesseCheck = 0;
+        if (guessCheck == 0) { wrongGuesses++; } 
+        guessCheck = 0;
 
         if (victoryCheck == user_word.Length) 
         {
@@ -573,7 +653,7 @@ string GetRandomWord()
     string[] word =
     {
         "hangman","tictactoe","bananas","science", "pneumonoultramicroscopicsilicovolcanoconiosis",
-        "Supercalifragilisticexpialidocious","character","comfortable","thunder","exile","parallel",
+        "supercalifragilisticexpialidocious","character","comfortable","thunder","exile","parallel",
         "simulator","access","space","fragrant","create","display","update","program","maximum","minimum"
     };
     if (randomWord == word.Length) { randomWord = 0;}
