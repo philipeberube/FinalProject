@@ -434,7 +434,8 @@ void DisplayT3Board()
 
         }
     }
-    int tempIndex;
+    int tempIndex0;
+    int tempIndex1;
     char currentPlayer = 'X';
     Console.WriteLine("Starting Tic Tac Toe...");
     Console.WriteLine("Setting up a new board...\n");
@@ -442,13 +443,13 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     Console.WriteLine("Hello player 1 please enter your ID:");
-    tempIndex = GetPlayerID(Console.ReadLine());
-    player[0] = listOfPlayers[Convert.ToInt32(tempIndex)].Name;
+    tempIndex0 = GetPlayerID(Console.ReadLine());
+    player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
         
     Console.WriteLine(player[0]);
     Console.WriteLine("Hello player 2 please enter your ID:");
-    tempIndex = GetPlayerID(Console.ReadLine());
-    player[1] = listOfPlayers[Convert.ToInt32(tempIndex)].Name;
+    tempIndex1 = GetPlayerID(Console.ReadLine());
+    player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
 
     for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
@@ -509,21 +510,27 @@ void DisplayT3Board()
 
             if (currentPlayerInt == 0)
             {
-                Console.WriteLine(GetPlayerID(player[0]));
-                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 2;
-                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 0;
+                Console.WriteLine(tempIndex0);
+                listOfPlayers[tempIndex0].TicTacToeScore += 1;
+                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+                listOfPlayers[tempIndex1].TicTacToeScore -= 1;
+                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
             }
             else if (currentPlayerInt == 1)
             {
-                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 2;
-                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 0;
+                listOfPlayers[tempIndex1].TicTacToeScore += 1;
+                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
+                listOfPlayers[tempIndex0].TicTacToeScore -= 1;
+                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
             }
             else
             {
-                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 1;
-                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 1;
+                listOfPlayers[tempIndex0].TicTacToeScore += 0;
+                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+                listOfPlayers[tempIndex1].TicTacToeScore += 0;
+                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
             }
-
+            break;
 
         }
             
