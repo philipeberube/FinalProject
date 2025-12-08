@@ -442,13 +442,13 @@ void DisplayT3Board()
 
     String[] player = new string[2];
     
-    Console.WriteLine("Hello player 1 please enter your ID:");
-    tempIndex0 = GetPlayerID(Console.ReadLine());
+    CallPlayerIndex();
+    tempIndex0 = CallPlayerIndex();
     player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
         
     Console.WriteLine(player[0]);
-    Console.WriteLine("Hello player 2 please enter your ID:");
-    tempIndex1 = GetPlayerID(Console.ReadLine());
+    CallPlayerIndex();
+    tempIndex1 = CallPlayerIndex();
     player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
 
@@ -523,18 +523,20 @@ void DisplayT3Board()
                 listOfPlayers[tempIndex0].TicTacToeScore -= 1;
                 listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
             }
-            else
-            {
-                listOfPlayers[tempIndex0].TicTacToeScore += 0;
-                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
-                listOfPlayers[tempIndex1].TicTacToeScore += 0;
-                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
-            }
+            
             break;
 
         }
             
-
+        if (IsDraw(ticTacToeBoard) == true)
+        {
+            Console.WriteLine("The game is a draw!");
+            listOfPlayers[tempIndex0].TicTacToeScore += 0;
+            listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+            listOfPlayers[tempIndex1].TicTacToeScore += 0;
+            listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
+            break;
+        }
 
     }
 
@@ -549,7 +551,43 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
     board[r,c] = swap;
     return board;
 }
+int CallPlayerIndex()
+{
+    int tempIndex;
+    char answer;
+    for (int i = 1; i < 3; i++)
+    {
+        Console.WriteLine($"player {i++} please enter your user id");
+        tempIndex = GetPlayerID(Console.ReadLine());
 
+        if (tempIndex != -1)
+        {
+            return tempIndex;
+        }
+        else
+        {
+            do
+            {
+                Console.WriteLine("would you like to create an account for that id? (y/n)");
+                answer = Convert.ToChar(Console.ReadLine());
+
+            } while(answer != 'y' && answer != 'n');
+            
+            if (answer == 'y')
+            {
+                CreateAccount();
+                return tempIndex;
+            }
+            else
+            {
+                Console.WriteLine("please re enter your id");
+                return tempIndex;
+            }
+        
+        }   
+    }
+    return -1;
+}
 char TicTacToeInput(char[,] board)
 {
     char playerChoice;
@@ -578,7 +616,20 @@ char TicTacToeInput(char[,] board)
 
     return playerChoice;
 }
-
+bool IsDraw(char[,] board)
+{
+    for (int i = 0; i < board.GetLength(0); i++)
+    {
+        for (int j = 0; j < board.GetLength(1); j++)
+        {
+            if (board[i, j] != 'X' && board[i, j] != 'O')
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 bool IsWinner(char[,] board)
 {
     if (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] || board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] 
