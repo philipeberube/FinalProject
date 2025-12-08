@@ -60,16 +60,16 @@ do
 
 } while(exit == false);
 
-string GetPlayerID (string Id)
+int GetPlayerID (string Id)
 {
     for (int i = 0; i < listOfPlayers.Length; i++)
     {
         if (listOfPlayers[i].Id == Id)
         {
-            return $"{i}";
+            return i;
         }
     }
-    return "-1";
+    return -1;
 }
 
 void PrintPlayerProfile (int index)
@@ -133,7 +133,7 @@ void AdminMenu()
                 string tempID = Console.ReadLine();
                 Console.WriteLine("\n");
                 GetPlayerID(tempID);
-                if (GetPlayerID(tempID).Equals("-1"))
+                if (GetPlayerID(tempID) == -1 )
                 {
                     Console.WriteLine("Player ID not found.");
                 }
@@ -141,7 +141,7 @@ void AdminMenu()
                 {
                     Console.WriteLine("Player ID found.");
                     // Display player profile details here
-                    int id = Convert.ToInt32(GetPlayerID(tempID));
+                    int id = GetPlayerID(tempID);
 
                     PrintPlayerProfile(id);
                     
@@ -311,7 +311,7 @@ void CreateAccount()
 void EnterAccount()
 {
     string tempId;
-    string id;
+    int index;
     int Id;
     
     if(numOfPlayers == 0)
@@ -326,11 +326,11 @@ void EnterAccount()
             {
                 Console.WriteLine("Please enter your Id");
                 tempId = Console.ReadLine();
-                id = GetPlayerID(tempId);
-            } while (id == "-1");
-            if (id != "-1")
+                index = GetPlayerID(tempId);
+            } while (index == -1);
+            if (index != -1)
             {
-                Id = Convert.ToInt32(GetPlayerID(tempId));
+                Id = GetPlayerID(tempId);
                 PrintPlayerProfile(Id);
                 break;
             }
@@ -365,17 +365,17 @@ void SuspendPlayer()
 {
     Console.WriteLine("Enter the player ID to suspend:");
     string tempId = Console.ReadLine();
-    string tempId2 = GetPlayerID(tempId);
+    int tempIndex = GetPlayerID(tempId);
     char suspendChoice;
-    if (tempId2 == "-1")
+    if (tempIndex == -1)
     {
         Console.WriteLine("Player ID not found.");
         
     }
     else
     {
-        int id = Convert.ToInt32(GetPlayerID(tempId));
-        Console.WriteLine($"Would you like to suspend {listOfPlayers[id].Name}? (y/n)");
+        int index = GetPlayerID(tempId);
+        Console.WriteLine($"Would you like to suspend {listOfPlayers[index].Name}? (y/n)");
         do
         {
             suspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
@@ -384,8 +384,8 @@ void SuspendPlayer()
         
         if (suspendChoice == 'y')
         {
-            listOfPlayers[id].IsSuspended = true;
-            Console.WriteLine($"{listOfPlayers[id].Name} has been suspended.");
+            listOfPlayers[index].IsSuspended = true;
+            Console.WriteLine($"{listOfPlayers[index].Name} has been suspended.");
             
         }
         
@@ -395,17 +395,17 @@ void UnsuspendPlayer()
 {
     Console.WriteLine("Enter the player ID to unsuspend:");
     string tempId = Console.ReadLine();
-    string tempId2 = GetPlayerID(tempId);
+    int tempIndex = GetPlayerID(tempId);
     char unsuspendChoice;
-    if (tempId2 == "-1")
+    if (tempIndex == -1)
     {
         Console.WriteLine("Player ID not found.");
 
     }
     else
     {
-        int id = Convert.ToInt32(GetPlayerID(tempId));
-        Console.WriteLine($"Would you like to unsuspend {listOfPlayers[id].Name}? (y/n)");
+        int index = Convert.ToInt32(GetPlayerID(tempId));
+        Console.WriteLine($"Would you like to unsuspend {listOfPlayers[index].Name}? (y/n)");
         do
         {
             unsuspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
@@ -414,8 +414,8 @@ void UnsuspendPlayer()
 
         if (unsuspendChoice == 'y')
         {
-            listOfPlayers[id].IsSuspended = false;
-            Console.WriteLine($"{listOfPlayers[id].Name} has been unsuspended.");
+            listOfPlayers[index].IsSuspended = false;
+            Console.WriteLine($"{listOfPlayers[index].Name} has been unsuspended.");
             
         }
     }
@@ -434,7 +434,7 @@ void DisplayT3Board()
 
         }
     }
-    string tempId;
+    int tempIndex;
     char currentPlayer = 'X';
     Console.WriteLine("Starting Tic Tac Toe...");
     Console.WriteLine("Setting up a new board...\n");
@@ -442,13 +442,13 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     Console.WriteLine("Hello player 1 please enter your ID:");
-    tempId = GetPlayerID(Console.ReadLine());
-    player[0] = listOfPlayers[Convert.ToInt32(tempId)].Name;
+    tempIndex = GetPlayerID(Console.ReadLine());
+    player[0] = listOfPlayers[Convert.ToInt32(tempIndex)].Name;
         
     Console.WriteLine(player[0]);
     Console.WriteLine("Hello player 2 please enter your ID:");
-    tempId = GetPlayerID(Console.ReadLine());
-    player[1] = listOfPlayers[Convert.ToInt32(tempId)].Name;
+    tempIndex = GetPlayerID(Console.ReadLine());
+    player[1] = listOfPlayers[Convert.ToInt32(tempIndex)].Name;
 
 
     for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
@@ -506,20 +506,22 @@ void DisplayT3Board()
         if (IsWinner(ticTacToeBoard)== true)
         {  
             Console.WriteLine($"Congratulations {player[currentPlayerInt]} you have won the game!");
+
             if (currentPlayerInt == 0)
             {
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 2;
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 0;
+                Console.WriteLine(GetPlayerID(player[0]));
+                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 2;
+                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 0;
             }
             else if (currentPlayerInt == 1)
             {
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 2;
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 0;
+                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 2;
+                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 0;
             }
             else
             {
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[0]))].TicTacToeScore += 1;
-                listOfPlayers[Convert.ToInt32(GetPlayerID(player[1]))].TicTacToeScore += 1;
+                listOfPlayers[GetPlayerID(player[0])].TicTacToeScore += 1;
+                listOfPlayers[GetPlayerID(player[1])].TicTacToeScore += 1;
             }
 
 
