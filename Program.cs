@@ -257,9 +257,6 @@ void PlayerMenu()
         case 3:
             ChooseGame();
             break;
-        case 4:
-            hangman();
-            break;
     }
         
 }
@@ -358,7 +355,6 @@ void ChooseGame()
             if (numOfPlayers < 2)
             {
                 Console.WriteLine("Sorry there aren't enough accounts to play");
-                break;
             }
             else
             {
@@ -366,9 +362,8 @@ void ChooseGame()
                 {
                     DisplayT3Board();
                 } while (PlayAgain());
-            break;
             }
-
+            break;
             
         case 2:
             if (numOfPlayers == 0)
@@ -378,11 +373,40 @@ void ChooseGame()
             }
             else
             {
+                bool canContinue = false;
                 do
                 {
+                    canContinue = false;
                     Console.WriteLine("Please enter your id");
                     string tempId = Console.ReadLine();
                     playerIndex[0] = Convert.ToInt32(GetPlayerID(tempId));
+
+                    if (playerIndex[0] == -1)
+                    {
+                        Console.WriteLine("That id does not exist");
+                        canContinue = true;
+                    }
+                    else if (listOfPlayers[playerIndex[0]].IsSuspended == true)
+                    {
+                        Console.WriteLine("Sorry that account is suspended\n");
+                        break;
+                    }
+                } while (canContinue);
+
+                
+
+                if (listOfPlayers[playerIndex[0]].IsSuspended == false)
+                {
+                    do
+                    {
+                        Console.WriteLine($"Welcome to hangman {listOfPlayers[playerIndex[0]].Name}");
+                        hangman();
+                    } while (PlayAgain());
+                }
+                
+                break;
+            }
+    }
 }
 
 void SuspendMenu()
@@ -461,22 +485,6 @@ void UnsuspendPlayer()
     }
 }
 
-                    if (playerIndex[0] == -1)
-                    {
-                        Console.WriteLine("That id does not exist");
-                    }
-
-                } while (playerIndex[0] == -1);
-                Console.WriteLine($"Welcome to hangman {listOfPlayers[playerIndex[0]].Name}");
-
-                do
-                {
-                    hangman();
-                } while (PlayAgain());
-                break;
-            }
-    }
-}
 
 bool PlayAgain()
 {
@@ -515,12 +523,12 @@ void DisplayT3Board()
 
     String[] player = new string[2];
     
-    CallPlayerIndex();
+    //CallPlayerIndex();
     tempIndex0 = CallPlayerIndex();
     player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
         
     Console.WriteLine(player[0]);
-    CallPlayerIndex();
+    //CallPlayerIndex();
     tempIndex1 = CallPlayerIndex();
     player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
