@@ -12,8 +12,7 @@ const string psswd = "2025";
 bool exit = false;
 int choice = 0;
 int randomWord = 0;
-
-
+int[] playerIndex = new int[2];
 
 do
 {
@@ -42,7 +41,6 @@ do
                     Console.WriteLine("Do you want to exit the application and lose all saved files (y/n)");
                     exitout = Convert.ToChar(Console.ReadLine().ToLower());
                 } while (exitout != 'y' && exitout != 'n');
-
 
                 if (exitout == 'y')
                 {
@@ -242,7 +240,7 @@ void HighestAverageScore(Player[] listOfPlayers)
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play tictactoe");
+    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games");
     int input = Convert.ToInt32(Console.ReadLine());
     switch (input)
     {
@@ -255,7 +253,7 @@ void PlayerMenu()
             EnterAccount();
             break;
         case 3:
-            DisplayT3Board();
+            ChooseGame();
             break;
     }
         
@@ -340,6 +338,79 @@ void EnterAccount()
 
 }
  
+void ChooseGame()
+{
+    int gameChoice;
+    do
+    {
+        Console.WriteLine("What do you want to play \n1: tictactoe \n2: hangman");
+        gameChoice = Convert.ToInt32(Console.ReadLine());
+    } while (gameChoice < 0 || gameChoice > 2);
+
+    switch (gameChoice)
+    {
+        case 1:
+            if (numOfPlayers < 2)
+            {
+                Console.WriteLine("Sorry there aren't enough accounts to play");
+                break;
+            }
+            else
+            {
+                do
+                {
+                    DisplayT3Board();
+                } while (PlayAgain());
+            break;
+            }
+
+            
+        case 2:
+            if (numOfPlayers == 0)
+            {
+                Console.WriteLine("Sorry there aren't enough accounts to play");
+                break;
+            }
+            else
+            {
+                do
+                {
+                    Console.WriteLine("Please enter your id");
+                    string tempId = Console.ReadLine();
+                    playerIndex[0] = Convert.ToInt32(GetPlayerID(tempId));
+
+                    if (playerIndex[0] == -1)
+                    {
+                        Console.WriteLine("That id does not exist");
+                    }
+
+                } while (playerIndex[0] == -1);
+                Console.WriteLine($"Welcome to hangman {listOfPlayers[playerIndex[0]].Name}");
+
+                do
+                {
+                    hangman();
+                } while (PlayAgain());
+                break;
+            }
+    }
+}
+
+bool PlayAgain()
+{
+    char answr;
+    do
+    {
+        Console.WriteLine("Do you want to play again(y/n)");
+        answr = Convert.ToChar(Console.ReadLine().ToLower());
+    } while (answr != 'y' && answr != 'n');
+    
+    if (answr == 'y') {return true;}
+    else { return false;}
+
+}
+
+
 
 void DisplayT3Board()
 {
@@ -364,7 +435,7 @@ void DisplayT3Board()
     Console.WriteLine("Hello player 1 please enter your ID:");
     tempId = GetPlayerID(Console.ReadLine());
     player[0] = listOfPlayers[Convert.ToInt32(tempId)].Name;
-        
+
     Console.WriteLine(player[0]);
     Console.WriteLine("Hello player 2 please enter your ID:");
     tempId = GetPlayerID(Console.ReadLine());
@@ -382,10 +453,8 @@ void DisplayT3Board()
             for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
             {
                 Console.Write(ticTacToeBoard[rows, collums]);
-
             }
-            Console.WriteLine("");
-
+            Console.WriteLine();
         }
 
         Console.WriteLine();
@@ -509,6 +578,7 @@ bool IsWinner(char[,] board)
 
 void hangman()
 {
+
     int guessCheck = 0;
     int wrongGuesses = 0;
     int maxWrongGuesseus = 6;
@@ -537,23 +607,29 @@ void hangman()
             if (guess == secret_word[i])
             {
                 user_word[i] = guess;
-                guesseCheck++;
+                guessCheck++;
             }
         }
+
+        if (guessCheck == 0) 
+        {
+            Console.WriteLine("You Guessed Wrong");
+            wrongGuesses++; 
+        } 
+        guessCheck = 0;
+
         foreach (char c in user_word) { Console.Write(c); }
         for (int i = 0; i < secret_word.Length; i++)
         {
             if (user_word[i] == secret_word[i]) { victoryCheck++; }
         }
 
-        if (guesseCheck == 0) { wrongGuesses++; } 
-        guesseCheck = 0;
-
         if (victoryCheck == user_word.Length) 
         {
             Console.WriteLine();
             Console.WriteLine("Congrats you won!!!");
             gameover = false;
+            listOfPlayers[playerIndex[0]].HangmanScore++;
         }
         victoryCheck = 0;
         if (wrongGuesses == maxWrongGuesseus)
@@ -562,7 +638,10 @@ void hangman()
             Console.WriteLine("You ran out of guesses GAME OVER!!!");
             gameover = false;
         }
-    }while(gameover); 
+    }while(gameover);
+    listOfPlayers[playerIndex[0]].NumOfHangmanGamesPlayed++;
+
+
 
 }
 
