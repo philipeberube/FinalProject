@@ -58,30 +58,6 @@ do
 
 } while(exit == false);
 
-int GetPlayerID (string Id)
-{
-    for (int i = 0; i < listOfPlayers.Length; i++)
-    {
-        if (listOfPlayers[i].Id == Id)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void PrintPlayerProfile (int index)
-{
-    GetAverageScore();
-    Console.WriteLine($"Player ID:{listOfPlayers[index].Id}\nName:{listOfPlayers[index].Name}\n" +
-                                    $"Number of Hangman Games Played: {listOfPlayers[index].NumOfHangmanGamesPlayed}\n" +
-                                    $"Number of Tic Tac Toe Games Played: {listOfPlayers[index].NumOfTicTacToeGamesPlayed}\n" +
-                                    $"Hangman Score: {listOfPlayers[index].HangmanScore}\n" +
-                                    $"Tic Tac Toe Score: {listOfPlayers[index].TicTacToeScore}\n" +
-                                    $"Average Score: {listOfPlayers[index].AvgScore}\n" +
-                                    $"Is Suspended: {listOfPlayers[index].IsSuspended}\n");
-}
-
 void AdminMenu()
 {
     bool accessGranted = false;
@@ -181,6 +157,28 @@ void AdminMenu()
     } while (leave == 'n');
 }
 
+void PlayerMenu()
+{
+    Console.WriteLine("Welcome to the player menu");
+    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games");
+    int input = Convert.ToInt32(Console.ReadLine());
+    switch (input)
+    {
+        case 1:
+            CreateAccount();
+            numOfPlayers++;
+
+            break;
+        case 2:
+            EnterAccount();
+            break;
+        case 3:
+            ChooseGame();
+            break;
+    }
+        
+}
+
 char MainReturn()
 {
 
@@ -195,6 +193,31 @@ char MainReturn()
     } while (leave != 'y' && leave != 'n');
     return leave;
 }
+
+int GetPlayerID (string Id)
+{
+    for (int i = 0; i < listOfPlayers.Length; i++)
+    {
+        if (listOfPlayers[i].Id == Id)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void PrintPlayerProfile (int index)
+{
+    GetAverageScore();
+    Console.WriteLine($"Player ID:{listOfPlayers[index].Id}\nName:{listOfPlayers[index].Name}\n" +
+                                    $"Number of Hangman Games Played: {listOfPlayers[index].NumOfHangmanGamesPlayed}\n" +
+                                    $"Number of Tic Tac Toe Games Played: {listOfPlayers[index].NumOfTicTacToeGamesPlayed}\n" +
+                                    $"Hangman Score: {listOfPlayers[index].HangmanScore}\n" +
+                                    $"Tic Tac Toe Score: {listOfPlayers[index].TicTacToeScore}\n" +
+                                    $"Average Score: {listOfPlayers[index].AvgScore}\n" +
+                                    $"Is Suspended: {listOfPlayers[index].IsSuspended}\n");
+}
+
 void HangmanHighScore(Player[] listOfPlayers)
 {
     int highScore = listOfPlayers[0].HangmanScore;
@@ -243,6 +266,7 @@ void HighestAverageScore(Player[] listOfPlayers)
     Console.WriteLine($"The highest Average score is: {highScore}");
     Console.WriteLine($"It is found at index {index}");
 }
+
 void GetAverageScore()
 {
     float scoreTotal,gamesTotal;
@@ -261,26 +285,91 @@ void GetAverageScore()
     }
     
 }
-void PlayerMenu()
+
+void SuspendMenu()
 {
-    Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games");
+    Console.WriteLine("What would you like to do \n1: suspend player\n2: unsuspend player");
     int input = Convert.ToInt32(Console.ReadLine());
     switch (input)
     {
         case 1:
-            CreateAccount();
-            numOfPlayers++;
-
+            SuspendPlayer();
             break;
         case 2:
-            EnterAccount();
-            break;
-        case 3:
-            ChooseGame();
+            UnsuspendPlayer();
             break;
     }
+}
+
+void SuspendPlayer()
+{
+    Console.WriteLine("Enter the player ID to suspend:");
+    string tempId = Console.ReadLine();
+    int tempIndex = GetPlayerID(tempId);
+    char suspendChoice;
+    if (tempIndex == -1)
+    {
+        Console.WriteLine("Player ID not found.");
         
+    }
+    else
+    {
+        int index = GetPlayerID(tempId);
+        Console.WriteLine($"Would you like to suspend {listOfPlayers[index].Name}? (y/n)");
+        do
+        {
+            suspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
+
+        }while (suspendChoice != 'y' && suspendChoice != 'n');
+        
+        if (suspendChoice == 'y')
+        {
+            listOfPlayers[index].IsSuspended = true;
+            Console.WriteLine($"{listOfPlayers[index].Name} has been suspended.");
+            
+        }
+        
+    }
+}
+
+void UnsuspendPlayer()
+{
+    Console.WriteLine("Enter the player ID to unsuspend:");
+    string tempId = Console.ReadLine();
+    int tempIndex = GetPlayerID(tempId);
+    char unsuspendChoice;
+    if (tempIndex == -1)
+    {
+        Console.WriteLine("Player ID not found.");
+
+    }
+    else
+    {
+        int index = Convert.ToInt32(GetPlayerID(tempId));
+        Console.WriteLine($"Would you like to unsuspend {listOfPlayers[index].Name}? (y/n)");
+        do
+        {
+            unsuspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
+
+        } while (unsuspendChoice != 'y' && unsuspendChoice != 'n');
+
+        if (unsuspendChoice == 'y')
+        {
+            listOfPlayers[index].IsSuspended = false;
+            Console.WriteLine($"{listOfPlayers[index].Name} has been unsuspended.");
+            
+        }
+    }
+}
+
+bool IsSuspended(int playerID)
+{
+    if (listOfPlayers[playerID].IsSuspended == true)
+    {
+        Console.WriteLine("Sorry that account is suspended\n");
+        return true;
+    }
+    else { return false; }
 }
 
 void CreateAccount()
@@ -362,17 +451,6 @@ void EnterAccount()
 
 }
  
-bool IsSuspended(int playerID)
-{
-    if (listOfPlayers[playerID].IsSuspended == true)
-    {
-        Console.WriteLine("Sorry that account is suspended\n");
-        return true;
-    }
-    else { return false; }
-}
-
-
 void ChooseGame()
 {
     int gameChoice;
@@ -440,97 +518,6 @@ void ChooseGame()
                 break;
             }
     }
-}
-
-void SuspendMenu()
-{
-    Console.WriteLine("What would you like to do \n1: suspend player\n2: unsuspend player");
-    int input = Convert.ToInt32(Console.ReadLine());
-    switch (input)
-    {
-        case 1:
-            SuspendPlayer();
-            break;
-        case 2:
-            UnsuspendPlayer();
-            break;
-    }
-}
-
-
-void SuspendPlayer()
-{
-    Console.WriteLine("Enter the player ID to suspend:");
-    string tempId = Console.ReadLine();
-    int tempIndex = GetPlayerID(tempId);
-    char suspendChoice;
-    if (tempIndex == -1)
-    {
-        Console.WriteLine("Player ID not found.");
-        
-    }
-    else
-    {
-        int index = GetPlayerID(tempId);
-        Console.WriteLine($"Would you like to suspend {listOfPlayers[index].Name}? (y/n)");
-        do
-        {
-            suspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
-
-        }while (suspendChoice != 'y' && suspendChoice != 'n');
-        
-        if (suspendChoice == 'y')
-        {
-            listOfPlayers[index].IsSuspended = true;
-            Console.WriteLine($"{listOfPlayers[index].Name} has been suspended.");
-            
-        }
-        
-    }
-}
-void UnsuspendPlayer()
-{
-    Console.WriteLine("Enter the player ID to unsuspend:");
-    string tempId = Console.ReadLine();
-    int tempIndex = GetPlayerID(tempId);
-    char unsuspendChoice;
-    if (tempIndex == -1)
-    {
-        Console.WriteLine("Player ID not found.");
-
-    }
-    else
-    {
-        int index = Convert.ToInt32(GetPlayerID(tempId));
-        Console.WriteLine($"Would you like to unsuspend {listOfPlayers[index].Name}? (y/n)");
-        do
-        {
-            unsuspendChoice = Convert.ToChar(Console.ReadLine().ToLower());
-
-        } while (unsuspendChoice != 'y' && unsuspendChoice != 'n');
-
-        if (unsuspendChoice == 'y')
-        {
-            listOfPlayers[index].IsSuspended = false;
-            Console.WriteLine($"{listOfPlayers[index].Name} has been unsuspended.");
-            
-        }
-    }
-}
-
-
-bool PlayAgain()
-{
-    char answr;
-    do
-    {
-        Console.WriteLine("Do you want to play again(y/n)");
-        answr = Convert.ToChar(Console.ReadLine().ToLower());
-    } while (answr != 'y' && answr != 'n');
-    
-    if (answr == 'y') {return true;}
-    else { return false;}
-
 }
 
 void DisplayT3Board()
@@ -723,6 +710,7 @@ bool IsDraw(char[,] board)
     }
     return true;
 }
+
 bool IsWinner(char[,] board)
 {
     if (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] || board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2] 
@@ -823,6 +811,20 @@ string GetRandomWord()
 
     return word[randomWord];
 
+
+}
+
+bool PlayAgain()
+{
+    char answr;
+    do
+    {
+        Console.WriteLine("Do you want to play again(y/n)");
+        answr = Convert.ToChar(Console.ReadLine().ToLower());
+    } while (answr != 'y' && answr != 'n');
+    
+    if (answr == 'y') {return true;}
+    else { return false;}
 
 }
 
