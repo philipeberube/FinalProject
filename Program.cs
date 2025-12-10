@@ -560,9 +560,9 @@ void DisplayT3Board()
     Console.WriteLine(player[1]);
     //tempIndex1 = CallPlayerIndex();
     //player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
+    int currentPlayerInt = 0;
 
-
-    for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
+    do
     {
         currentPlayerInt = currentPlayerInt % 2;
         if (currentPlayerInt == 0) { currentPlayer = 'X'; }
@@ -632,7 +632,7 @@ void DisplayT3Board()
                 listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
             }
             
-            break;
+            
 
         }
             
@@ -643,15 +643,15 @@ void DisplayT3Board()
             listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
             listOfPlayers[tempIndex1].TicTacToeScore += 0;
             listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
-            break;
+            
         }
+        currentPlayerInt++;
+    } while (IsWinner(ticTacToeBoard) == false && IsDraw(ticTacToeBoard) == false);
 
-    }
 
 
-        
-        
-    
+
+
 }
 
 char[,] SwapInBoard(char[,] board,int r,int c, char swap)
