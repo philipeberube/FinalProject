@@ -72,6 +72,7 @@ int GetPlayerID (string Id)
 
 void PrintPlayerProfile (int index)
 {
+    GetAverageScore();
     Console.WriteLine($"Player ID:{listOfPlayers[index].Id}\nName:{listOfPlayers[index].Name}\n" +
                                     $"Number of Hangman Games Played: {listOfPlayers[index].NumOfHangmanGamesPlayed}\n" +
                                     $"Number of Tic Tac Toe Games Played: {listOfPlayers[index].NumOfTicTacToeGamesPlayed}\n" +
@@ -148,9 +149,9 @@ void AdminMenu()
                 break;
             case 2:
                 // Display all profiles
-                for (int j = 0; j < numOfPlayers; j++)
+                for (int i = 0; i < numOfPlayers; i++)
                 {
-                    PrintPlayerProfile(j);
+                    PrintPlayerProfile(i);
                     
                 }
                 break;
@@ -161,6 +162,8 @@ void AdminMenu()
                 TicTacToeHighScore(listOfPlayers);
             
                 HighestAverageScore(listOfPlayers);
+
+                
 
                 break;
             case 4:
@@ -226,6 +229,7 @@ void TicTacToeHighScore(Player[] listOfPlayers)
 
 void HighestAverageScore(Player[] listOfPlayers)
 {
+    GetAverageScore();
     float highScore = listOfPlayers[0].AvgScore;
     int index = 0;
     for (int i = 0; i < numOfPlayers; i++)
@@ -239,7 +243,24 @@ void HighestAverageScore(Player[] listOfPlayers)
     Console.WriteLine($"The highest Average score is: {highScore}");
     Console.WriteLine($"It is found at index {index}");
 }
+void GetAverageScore()
+{
+    float scoreTotal,gamesTotal;
+    int index;
+    float tempAvg;
 
+    for (index = 0; index < numOfPlayers; index++)
+    {
+        
+
+        scoreTotal = (float)listOfPlayers[index].HangmanScore + listOfPlayers[index].TicTacToeScore;
+        gamesTotal = (float)listOfPlayers[index].NumOfHangmanGamesPlayed + listOfPlayers[index].NumOfTicTacToeGamesPlayed;
+        
+        tempAvg = (scoreTotal / gamesTotal);
+        listOfPlayers[index].AvgScore = tempAvg;
+    }
+    
+}
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
@@ -523,13 +544,22 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     //CallPlayerIndex();
-    tempIndex0 = CallPlayerIndex();
-    player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
-        
+    Console.WriteLine("Player 1 please enter your id");
+    tempIndex0 = GetPlayerID(Console.ReadLine());
+    player[0] = listOfPlayers[tempIndex0].Name;
+    
+    //tempIndex0 = CallPlayerIndex();
+    //player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
+
     Console.WriteLine(player[0]);
     //CallPlayerIndex();
-    tempIndex1 = CallPlayerIndex();
-    player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
+    Console.WriteLine("Player 2 please enter your id");
+    tempIndex1 = GetPlayerID(Console.ReadLine());
+    player[1] = listOfPlayers[tempIndex1].Name;
+
+    Console.WriteLine(player[1]);
+    //tempIndex1 = CallPlayerIndex();
+    //player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
 
     for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
@@ -630,44 +660,46 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
     return board;
 }
 
-int CallPlayerIndex()
-{
-    int tempIndex;
-    char answer;
-    for (int i = 1; i < 3; i++)
-    {
-        Console.WriteLine($"player {i++} please enter your user id");
-        tempIndex = GetPlayerID(Console.ReadLine());
+//int CallPlayerIndex()
+//{
+//    int tempIndex;
+//    char answer;
+//    int i ;
+//    for (i=1; i < 3;)
+//    {
+//        Console.WriteLine($"player {i} please enter your user id");
+//        tempIndex = GetPlayerID(Console.ReadLine());
 
-        if (tempIndex != -1)
-        {
-            return tempIndex;
-        }
-        else
-        {
-            do
-            {
-                Console.WriteLine("would you like to create an account for that id? (y/n)");
-                answer = Convert.ToChar(Console.ReadLine());
+//        if (tempIndex != -1)
+//        {
+//            return tempIndex;
+//        }
+//        else
+//        {
+//            do
+//            {
+//                Console.WriteLine("would you like to create an account for that id? (y/n)");
+//                answer = Convert.ToChar(Console.ReadLine());
 
-            } while(answer != 'y' && answer != 'n');
+//            } while(answer != 'y' && answer != 'n');
             
-            if (answer == 'y')
-            {
-                CreateAccount();
-                return tempIndex;
-            }
-            else
-            {
-                Console.WriteLine("please re enter your id");
-                return tempIndex;
-            }
+//            if (answer == 'y')
+//            {
+//                CreateAccount();
+//                i++;
+//                return tempIndex;
+                
+//            }
+//            else
+//            {
+//                Console.WriteLine("please re enter your id");
+//                return tempIndex;
+//            }
         
-        }   
-    }
-    return -1;
-}
-
+//        }   
+//    }
+//    return -1;
+//}
 char TicTacToeInput(char[,] board)
 {
     char playerChoice;
