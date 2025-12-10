@@ -362,6 +362,17 @@ void EnterAccount()
 
 }
  
+bool IsSuspended(int playerID)
+{
+    if (listOfPlayers[playerID].IsSuspended == true)
+    {
+        Console.WriteLine("Sorry that account is suspended\n");
+        return true;
+    }
+    else { return false; }
+}
+
+
 void ChooseGame()
 {
     int gameChoice;
@@ -401,7 +412,7 @@ void ChooseGame()
                     canContinue = false;
                     Console.WriteLine("Please enter your id");
                     string tempId = Console.ReadLine();
-                    playerIndex[0] = Convert.ToInt32(GetPlayerID(tempId));
+                    playerIndex[0] = GetPlayerID(tempId);
 
                     if (playerIndex[0] == -1)
                     {
@@ -544,20 +555,28 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     //CallPlayerIndex();
-    Console.WriteLine("Player 1 please enter your id");
-    tempIndex0 = GetPlayerID(Console.ReadLine());
-    player[0] = listOfPlayers[tempIndex0].Name;
-    
+    do
+    {
+        Console.WriteLine("Player 1 please enter your id");
+        tempIndex0 = GetPlayerID(Console.ReadLine());
+        player[0] = listOfPlayers[tempIndex0].Name;
+    } while(IsSuspended(tempIndex0));
+
+
     //tempIndex0 = CallPlayerIndex();
     //player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
 
-    Console.WriteLine(player[0]);
+    //Console.WriteLine(player[0]);
     //CallPlayerIndex();
-    Console.WriteLine("Player 2 please enter your id");
-    tempIndex1 = GetPlayerID(Console.ReadLine());
-    player[1] = listOfPlayers[tempIndex1].Name;
+    do 
+    {
+        Console.WriteLine("Player 2 please enter your id");
+        tempIndex1 = GetPlayerID(Console.ReadLine());
+        player[1] = listOfPlayers[tempIndex1].Name;
+    } while(IsSuspended(tempIndex1));
+    
 
-    Console.WriteLine(player[1]);
+    //Console.WriteLine(player[1]);
     //tempIndex1 = CallPlayerIndex();
     //player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
@@ -618,7 +637,7 @@ void DisplayT3Board()
 
             if (currentPlayerInt == 0)
             {
-                Console.WriteLine(tempIndex0);
+                // Console.WriteLine(tempIndex0);
                 listOfPlayers[tempIndex0].TicTacToeScore += 1;
                 listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
                 listOfPlayers[tempIndex1].TicTacToeScore -= 1;
