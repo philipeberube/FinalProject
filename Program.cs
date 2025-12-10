@@ -228,6 +228,7 @@ void TicTacToeHighScore(Player[] listOfPlayers)
 
 void HighestAverageScore(Player[] listOfPlayers)
 {
+    GetAverageScore();
     float highScore = listOfPlayers[0].AvgScore;
     int index = 0;
     for (int i = 0; i < numOfPlayers; i++)
@@ -544,13 +545,22 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     //CallPlayerIndex();
-    tempIndex0 = CallPlayerIndex();
-    player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
-        
+    Console.WriteLine("Player 1 please enter your id");
+    tempIndex0 = GetPlayerID(Console.ReadLine());
+    player[0] = listOfPlayers[tempIndex0].Name;
+    
+    //tempIndex0 = CallPlayerIndex();
+    //player[0] = listOfPlayers[Convert.ToInt32(tempIndex0)].Name;
+
     Console.WriteLine(player[0]);
     //CallPlayerIndex();
-    tempIndex1 = CallPlayerIndex();
-    player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
+    Console.WriteLine("Player 2 please enter your id");
+    tempIndex1 = GetPlayerID(Console.ReadLine());
+    player[1] = listOfPlayers[tempIndex1].Name;
+
+    Console.WriteLine(player[1]);
+    //tempIndex1 = CallPlayerIndex();
+    //player[1] = listOfPlayers[Convert.ToInt32(tempIndex1)].Name;
 
 
     for (int currentPlayerInt = 0; currentPlayerInt < 3; currentPlayerInt++)
@@ -650,43 +660,47 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
     board[r,c] = swap;
     return board;
 }
-int CallPlayerIndex()
-{
-    int tempIndex;
-    char answer;
-    for (int i = 1; i < 3; i++)
-    {
-        Console.WriteLine($"player {i++} please enter your user id");
-        tempIndex = GetPlayerID(Console.ReadLine());
 
-        if (tempIndex != -1)
-        {
-            return tempIndex;
-        }
-        else
-        {
-            do
-            {
-                Console.WriteLine("would you like to create an account for that id? (y/n)");
-                answer = Convert.ToChar(Console.ReadLine());
+//int CallPlayerIndex()
+//{
+//    int tempIndex;
+//    char answer;
+//    int i ;
+//    for (i=1; i < 3;)
+//    {
+//        Console.WriteLine($"player {i} please enter your user id");
+//        tempIndex = GetPlayerID(Console.ReadLine());
 
-            } while(answer != 'y' && answer != 'n');
+//        if (tempIndex != -1)
+//        {
+//            return tempIndex;
+//        }
+//        else
+//        {
+//            do
+//            {
+//                Console.WriteLine("would you like to create an account for that id? (y/n)");
+//                answer = Convert.ToChar(Console.ReadLine());
+
+//            } while(answer != 'y' && answer != 'n');
             
-            if (answer == 'y')
-            {
-                CreateAccount();
-                return tempIndex;
-            }
-            else
-            {
-                Console.WriteLine("please re enter your id");
-                return tempIndex;
-            }
+//            if (answer == 'y')
+//            {
+//                CreateAccount();
+//                i++;
+//                return tempIndex;
+                
+//            }
+//            else
+//            {
+//                Console.WriteLine("please re enter your id");
+//                return tempIndex;
+//            }
         
-        }   
-    }
-    return -1;
-}
+//        }   
+//    }
+//    return -1;
+//}
 char TicTacToeInput(char[,] board)
 {
     char playerChoice;
