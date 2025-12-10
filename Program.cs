@@ -555,6 +555,7 @@ void DisplayT3Board()
     String[] player = new string[2];
     
     //CallPlayerIndex();
+
     do
     {
         Console.WriteLine("Player 1 please enter your id");
@@ -679,46 +680,6 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
     return board;
 }
 
-//int CallPlayerIndex()
-//{
-//    int tempIndex;
-//    char answer;
-//    int i ;
-//    for (i=1; i < 3;)
-//    {
-//        Console.WriteLine($"player {i} please enter your user id");
-//        tempIndex = GetPlayerID(Console.ReadLine());
-
-//        if (tempIndex != -1)
-//        {
-//            return tempIndex;
-//        }
-//        else
-//        {
-//            do
-//            {
-//                Console.WriteLine("would you like to create an account for that id? (y/n)");
-//                answer = Convert.ToChar(Console.ReadLine());
-
-//            } while(answer != 'y' && answer != 'n');
-            
-//            if (answer == 'y')
-//            {
-//                CreateAccount();
-//                i++;
-//                return tempIndex;
-                
-//            }
-//            else
-//            {
-//                Console.WriteLine("please re enter your id");
-//                return tempIndex;
-//            }
-        
-//        }   
-//    }
-//    return -1;
-//}
 char TicTacToeInput(char[,] board)
 {
     char playerChoice;
