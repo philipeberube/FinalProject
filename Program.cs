@@ -177,6 +177,7 @@ void AdminMenu()
 
     } while (leave == 'n');
 }
+
 char MainReturn()
 {
 
@@ -500,8 +501,6 @@ bool PlayAgain()
 
 }
 
-
-
 void DisplayT3Board()
 {
     char temp = '1';
@@ -630,6 +629,7 @@ char[,] SwapInBoard(char[,] board,int r,int c, char swap)
     board[r,c] = swap;
     return board;
 }
+
 int CallPlayerIndex()
 {
     int tempIndex;
@@ -667,6 +667,7 @@ int CallPlayerIndex()
     }
     return -1;
 }
+
 char TicTacToeInput(char[,] board)
 {
     char playerChoice;
@@ -695,6 +696,7 @@ char TicTacToeInput(char[,] board)
 
     return playerChoice;
 }
+
 bool IsDraw(char[,] board)
 {
     for (int i = 0; i < board.GetLength(0); i++)
