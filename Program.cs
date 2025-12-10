@@ -264,20 +264,27 @@ void GetAverageScore()
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
-    Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games");
-    int input = Convert.ToInt32(Console.ReadLine());
+    int input;
+    do
+    {
+        Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games \n4: return to menu");
+        input = Convert.ToInt32(Console.ReadLine());
+    } while (input < 0 || input > 4);
+
+
     switch (input)
     {
         case 1:
             CreateAccount();
             numOfPlayers++;
-
             break;
         case 2:
             EnterAccount();
             break;
         case 3:
             ChooseGame();
+            break;
+        case 4:
             break;
     }
         
