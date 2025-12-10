@@ -72,6 +72,7 @@ int GetPlayerID (string Id)
 
 void PrintPlayerProfile (int index)
 {
+    GetAverageScore();
     Console.WriteLine($"Player ID:{listOfPlayers[index].Id}\nName:{listOfPlayers[index].Name}\n" +
                                     $"Number of Hangman Games Played: {listOfPlayers[index].NumOfHangmanGamesPlayed}\n" +
                                     $"Number of Tic Tac Toe Games Played: {listOfPlayers[index].NumOfTicTacToeGamesPlayed}\n" +
@@ -148,9 +149,9 @@ void AdminMenu()
                 break;
             case 2:
                 // Display all profiles
-                for (int j = 0; j < numOfPlayers; j++)
+                for (int i = 0; i < numOfPlayers; i++)
                 {
-                    PrintPlayerProfile(j);
+                    PrintPlayerProfile(i);
                     
                 }
                 break;
@@ -161,6 +162,8 @@ void AdminMenu()
                 TicTacToeHighScore(listOfPlayers);
             
                 HighestAverageScore(listOfPlayers);
+
+                
 
                 break;
             case 4:
@@ -238,7 +241,24 @@ void HighestAverageScore(Player[] listOfPlayers)
     Console.WriteLine($"The highest Average score is: {highScore}");
     Console.WriteLine($"It is found at index {index}");
 }
+void GetAverageScore()
+{
+    float scoreTotal,gamesTotal;
+    int index;
+    float tempAvg;
 
+    for (index = 0; index < numOfPlayers; index++)
+    {
+        
+
+        scoreTotal = (float)listOfPlayers[index].HangmanScore + listOfPlayers[index].TicTacToeScore;
+        gamesTotal = (float)listOfPlayers[index].NumOfHangmanGamesPlayed + listOfPlayers[index].NumOfTicTacToeGamesPlayed;
+        
+        tempAvg = (scoreTotal / gamesTotal);
+        listOfPlayers[index].AvgScore = tempAvg;
+    }
+    
+}
 void PlayerMenu()
 {
     Console.WriteLine("Welcome to the player menu");
