@@ -165,7 +165,7 @@ void PlayerMenu()
     {
         Console.WriteLine("What would you like to do \n1: create account\n2: check account\n3: play games \n4: return to menu");
         input = Convert.ToInt32(Console.ReadLine());
-    }while (input < 0|| input > 4);
+    }while (input < 0|| input >= 4);
     
     switch (input)
     {
@@ -521,7 +521,7 @@ void ChooseGame()
                         hangman();
                     } while (PlayAgain());
                 }
-                
+                 
                 break;
             }
     }
