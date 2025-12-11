@@ -34,8 +34,8 @@ do
             break;
         case 3:
             // Exit
-            do
-            {
+            //do
+            //{
                 char exitout;
                 do
                 {
@@ -47,16 +47,16 @@ do
                 {
                     exit = true;
                 }
-                if (exitout == 'n')
-                {
-                    break;
-                }
+                //if (exitout == 'n')
+                //{
+                  //  break;
+                //}
 
-            } while (exit == false);
+            //} while (!exit);
             break;
     }
 
-} while(exit == false);
+} while(!exit );
 
 void AdminMenu()
 {
@@ -91,8 +91,12 @@ void AdminMenu()
     
     do 
     {
-        Console.WriteLine("What would you like to do\n1- View a profile\n2- Display all profiles" +
-        "\n3- Run stats\n4- Un/Suspend player\n5- Return to Main Menu");
+        Console.WriteLine("What would you like to do\n" +
+            "1- View a profile\n" +
+            "2- Display all profiles" +
+            "\n3- Run stats\n" +
+            "4- Un/Suspend player\n" +
+            "5- Return to Main Menu");
 
         int menuChoice = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("\n");
@@ -107,8 +111,8 @@ void AdminMenu()
                 Console.WriteLine("Enter player ID to view profile:");
                 string tempID = Console.ReadLine();
                 Console.WriteLine("\n");
-                GetPlayerID(tempID);
-                if (GetPlayerID(tempID) == -1 )
+                int id = GetPlayerID(tempID);//GetPlayerID(tempID);
+                if (id == -1 )
                 {
                     Console.WriteLine("Player ID not found.");
                 }
@@ -116,7 +120,7 @@ void AdminMenu()
                 {
                     Console.WriteLine("Player ID found.");
                     // Display player profile details here
-                    int id = GetPlayerID(tempID);
+                    
 
                     PrintPlayerProfile(id);
                     
@@ -398,12 +402,14 @@ void CreateAccount()
                 break;
             }
         }
-        
+        //do-while(GetPlayerID(tempId)!= -1); 
+
+
     } while (doesntOverlap);
     
     do
     {
-        Console.WriteLine("Please enter your username");
+        Console.WriteLine("Please enter your name");
         tempName = Console.ReadLine();
         do
         {
@@ -425,37 +431,34 @@ void EnterAccount()
 {
     string tempId;
     int index;
-    int Id;
+    //int Id;
     
     if(numOfPlayers == 0)
     {
         Console.WriteLine("There are no accounts");
+        return;
     }
-    else
+    
+    
+    for (int i = 0; i <= 3; i++)
     {
-        for (int i = 0; i <= 3; i++)
-        {
-            do
-            {
-                Console.WriteLine("Please enter your Id");
-                tempId = Console.ReadLine();
-                index = GetPlayerID(tempId);
-            } while (index == -1);
-            if (index != -1)
-            {
-                Id = GetPlayerID(tempId);
-                PrintPlayerProfile(Id);
-                break;
-            }
-            else { Console.WriteLine("Please enter a valid Id"); }
+        //do
+        //{
+            Console.WriteLine("Please enter your Id");
+            tempId = Console.ReadLine();
+            index = GetPlayerID(tempId);
+        //} while (index == -1);
+        if (index==-1)
+        { 
+            Console.WriteLine("Invalid Id"); 
+            continue;
         }
+        
+        
+            //Id = GetPlayerID(tempId);
+        PrintPlayerProfile(index);
     }
-
-
-
-
-
-
+    
 }
  
 void ChooseGame()
@@ -473,14 +476,15 @@ void ChooseGame()
             if (numOfPlayers < 2)
             {
                 Console.WriteLine("Sorry there aren't enough accounts to play");
+                break;
             }
-            else
-            {
+            //else
+            //{
                 do
                 {
-                    DisplayT3Board();
+                    DisplayT3();
                 } while (PlayAgain());
-            }
+            //}
             break;
             
         case 2:
@@ -489,12 +493,12 @@ void ChooseGame()
                 Console.WriteLine("Sorry there aren't enough accounts to play");
                 break;
             }
-            else
-            {
-                bool canContinue = false;
+            //else
+            //{
+                //bool canContinue = false;
                 do
                 {
-                    canContinue = false;
+                    //canContinue = false;
                     Console.WriteLine("Please enter your id");
                     string tempId = Console.ReadLine();
                     playerIndex[0] = GetPlayerID(tempId);
@@ -502,41 +506,42 @@ void ChooseGame()
                     if (playerIndex[0] == -1)
                     {
                         Console.WriteLine("That id does not exist");
-                        canContinue = true;
+                        //canContinue = true;
+                        continue;//goes to the next iteration 
                     }
-                    else if (listOfPlayers[playerIndex[0]].IsSuspended == true)
+                    if (listOfPlayers[playerIndex[0]].IsSuspended)
                     {
                         Console.WriteLine("Sorry that account is suspended\n");
-                        break;
+                        
                     }
-                } while (canContinue);
+                } while (playerIndex[0]==-1 || listOfPlayers[playerIndex[0]].IsSuspended);
 
                 
 
-                if (listOfPlayers[playerIndex[0]].IsSuspended == false)
-                {
-                    do
+                //if (listOfPlayers[playerIndex[0]].IsSuspended == false)
+                //{
+                    do 
                     {
                         Console.WriteLine($"Welcome to hangman {listOfPlayers[playerIndex[0]].Name}");
                         hangman();
                     } while (PlayAgain());
-                }
-                 
+                //}
+                
                 break;
-            }
+            //}
     }
 }
 
-void DisplayT3Board()
+void DisplayT3()
 {
     char temp = '1';
     // Tic Tac Toe game logic goes here
     char[,] ticTacToeBoard = new char[3, 3];
     for (int rows = 0; rows < ticTacToeBoard.GetLength(0); rows++)
     {
-        for (int collums = 0; collums < ticTacToeBoard.GetLength(1); collums++)
+        for (int colums = 0; colums < ticTacToeBoard.GetLength(1); colums++)
         {
-            ticTacToeBoard[rows, collums] = temp++;
+            ticTacToeBoard[rows, colums] = temp++;
 
         }
     }
@@ -634,28 +639,28 @@ void DisplayT3Board()
             {
                 // Console.WriteLine(tempIndex0);
                 listOfPlayers[tempIndex0].TicTacToeScore += 1;
-                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+                //listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
                 listOfPlayers[tempIndex1].TicTacToeScore -= 1;
-                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
+                //listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
             }
             else if (currentPlayerInt == 1)
             {
                 listOfPlayers[tempIndex1].TicTacToeScore += 1;
-                listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
+                //listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
                 listOfPlayers[tempIndex0].TicTacToeScore -= 1;
-                listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+                //listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
             }
-            
-            
+            listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
+            listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
 
         }
             
         if (IsDraw(ticTacToeBoard) == true)
         {
             Console.WriteLine("The game is a draw!");
-            listOfPlayers[tempIndex0].TicTacToeScore += 0;
+            //listOfPlayers[tempIndex0].TicTacToeScore += 0;
             listOfPlayers[tempIndex0].NumOfTicTacToeGamesPlayed++;
-            listOfPlayers[tempIndex1].TicTacToeScore += 0;
+            //listOfPlayers[tempIndex1].TicTacToeScore += 0;
             listOfPlayers[tempIndex1].NumOfTicTacToeGamesPlayed++;
             
         }
@@ -685,7 +690,9 @@ char TicTacToeInput(char[,] board)
             Console.WriteLine("Please enter which space you want to play in");
             playerChoice = Convert.ToChar(Console.ReadLine());
 
-        } while (playerChoice != '1' && playerChoice != '2' && playerChoice != '3' && playerChoice != '4' && playerChoice != '5' && playerChoice != '6' && playerChoice != '7' && playerChoice != '8' && playerChoice != '9');
+        } while (playerChoice < '1' || playerChoice > '9');
+                        //playerChoice != '1' && playerChoice != '2' && playerChoice != '3' && playerChoice != '4' && playerChoice != '5' 
+                        //&& playerChoice != '6' && playerChoice != '7' && playerChoice != '8' && playerChoice != '9');
 
         for (int i = 0; i < board.GetLength(0); i++)
         {
@@ -728,10 +735,10 @@ bool IsWinner(char[,] board)
     {
         return true;
     }
-    else
-    {
+    //else
+    //{
         return false;
-    }
+    //1}
 
 }
 
